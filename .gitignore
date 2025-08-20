@@ -1,2 +1,24 @@
-/.gradle
-ak.env
+/target/
+/build/
+
+# IDE files
+/.idea/
+/out/
+*.iml
+.project
+.classpath
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# 환경 변수
+.env
+*.env
+
+# 로그
+*.log
+logs/
+tmp/
+/.idea
