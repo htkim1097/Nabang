@@ -3,6 +3,7 @@
 
 # IDE files
 /.idea/
+/.idea
 /out/
 *.iml
 .project
@@ -21,4 +22,3 @@ Thumbs.db
 *.log
 logs/
 tmp/
-/.idea
