@@ -1,0 +1,71 @@
+{{> common/survey-header}}
+
+<main class="main-home survey-page">
+    <!-- 흐린 배경 이미지 오버레이 -->
+    <div class="background-overlay">
+        <img src="/assets/images/house-bg.png" alt="배경이미지" class="main-large-img bg-fade-img" />
+    </div>
+
+    <!-- 상단 타이틀 -->
+    <h1 class="page-title survey-title">방의 상세 특징을 선택해주세요</h1>
+    
+    <form class="survey-form">
+        <!-- 슬라이더 (방 크기) -->
+        <div class="slider-group survey-slider-group">
+            <div class="slider-label-row">
+                <label for="room-size" class="slider-label">방 크기</label>
+                <span class="slider-label-right">최소~무제한</span>
+            </div>
+            <input type="range" id="room-size" min="0" max="100" value="0" step="1" class="main-slider">
+        </div>
+
+        <!-- 층수/옵션 -->
+        <div class="survey-row room-option-row">
+            <!-- 층수 선택 -->
+            <div class="select-col">
+                <label for="floor" class="select-label">층</label>
+                <select id="floor" name="floor" class="main-select">
+                    <option value="">전체</option>
+                    <option value="1">1층</option>
+                    <option value="2">2층 이상</option>
+                    <option value="half">반지층</option>
+                </select>
+            </div>
+            <!-- 옵션 토글 -->
+            <div class="option-toggle-col">
+                <label for="elevator" class="option-label">엘리베이터</label>
+                <label class="switch">
+                    <input type="checkbox" id="elevator" name="elevator">
+                    <span class="slider"></span>
+                </label>
+                <label for="parking" class="option-label">주차</label>
+                <label class="switch">
+                    <input type="checkbox" id="parking" name="parking">
+                    <span class="slider"></span>
+                </label>
+                <label for="option" class="option-label">옵션 여부</label>
+                <label class="switch">
+                    <input type="checkbox" id="option" name="option">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 버튼 영역 -->
+        <div class="form-nav survey-nav">
+            <button type="button" class="base-btn previous-btn">
+                &larr; Previous
+            </button>
+            <button type="button" class="base-btn next-btn">
+                Next &rarr;
+            </button>
+        </div>
+    </form>
+
+    <!-- 좌측 하단 Home 버튼 -->
+    <div class="side-nav">
+        <button type="button" class="base-btn side-nav-btn">Home</button>
+    </div>
+</main>
+
+<script type="text/javascript" src="/js/survey/survey-roomdetail.js"></script>

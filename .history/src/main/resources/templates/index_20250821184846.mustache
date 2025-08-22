@@ -1,0 +1,30 @@
+{{> common/header}}
+
+<main class="main-home">
+    <!-- 상단 제목 영역 -->
+    <div class="home-title-wrapper">
+        <div class="logo-title-row">
+            <h3 class="home-title-small">안전한 나의 집, 나만의 방 구하기</h3>
+            <h1 class="home-title-large">나방</h1>
+        </div>
+        <button class="base-btn home-start-btn" onclick="location.href='/survey'">시작하기</button>
+    </div>
+
+    <!-- 메인 하단 대형 이미지 영역 (좌/우 이미지) -->
+    <div class="main-image-row">
+        <div class="main-image-col left-col">
+            <img src="/assets/images/disaster-left.png" alt="재난 이미지" class="main-large-img"/>
+        </div>
+        <div class="main-image-col right-col">
+            <img src="/assets/images/disaster-right.png" alt="화재 이미지" class="main-large-img"/>
+        </div>
+
+        <!-- 좌측 하단 고정 버튼 -->
+        <div class="side-nav">
+            <button class="base-btn side-nav-btn" onclick="location.href='/map'">Map</button>
+            <button class="base-btn side-nav-btn" onclick="location.href='/room-list'">Room List</button>
+        </div>
+    </div>
+</main>
+
+{{> common/footer}}

@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-NabangApplication<Nabang>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.htkim.Nabang.NabangApplication",
+            "projectName": "Nabang",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
