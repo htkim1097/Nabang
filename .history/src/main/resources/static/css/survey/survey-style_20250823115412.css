@@ -1,4 +1,4 @@
-/* --------------------설문 화면 스타일-------------------- */
+/*----- 설문 화면 스타일 -----*/
 
 /*사용자 설문 페이지 문항 글자*/
 .page-title {
@@ -38,7 +38,6 @@
 	z-index: 2;
 }
 
-/* ----------Select(Combobox) 스타일---------- */
 .select-opt-row {
 	display: flex;
 	gap: 32px;
@@ -62,7 +61,13 @@
 	width: 160px;
 }
 
-
+.survey-nav {
+	width: 420px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-top: 68px;
+}
 
 .previous-btn {
 	background: var(--nb-transparent);
@@ -82,22 +87,6 @@
 	transition: background-color 0.3s ease;
 }
 
-.base-btn.previous-btn:hover,
-.base-btn.next-btn:hover {
-	background: var(--nb-white); /* 어두운 오렌지 계열로 호버 효과 */
-	color: var(--nb-black-fg);
-}
-
-
-/* ----------Home 버튼 좌측 하단 고정---------- */
-.survey-nav {
-	width: 420px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	margin-top: 68px;
-}
-
 .form-nav.survey-nav {
 	display: flex;
 	justify-content: space-between;
@@ -105,6 +94,13 @@
 	width: 800px; /* 버튼 간격 조정 */
 }
 
+.base-btn.previous-btn:hover,
+.base-btn.next-btn:hover {
+	background: var(--nb-white); /* 어두운 오렌지 계열로 호버 효과 */
+	color: var(--nb-black-fg);
+}
+
+/* Home 버튼 좌측 하단 고정 */
 .side-nav {
 	position: fixed; /* fixed 으로 변경 - 항상 화면 좌하단 */
 	left: 24px;
@@ -151,7 +147,7 @@ input[type="range"] {
 	margin-right: 24px;
 }
 
-/* ----------NoUiSlider 커스텀 디자인---------- */
+/* NoUiSlider 커스텀 디자인 */
 /* 슬라이더 바 전체 */
 .noUi-target {
 	background: var(--nb-light-gray);
@@ -215,7 +211,7 @@ input[type="range"] {
     font-weight: 500;
 }
 
-/* ----------toggle switch 스타일---------- */
+/* toggle switch 스타일 */
 .switch {
     position: relative;
     display: inline-block;
@@ -224,7 +220,7 @@ input[type="range"] {
     margin-right: 8px;
 }
 .switch input { display:none; }
-.switch-slider {
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -232,7 +228,7 @@ input[type="range"] {
     border-radius: 17px;
     transition: .4s;
 }
-.switch-slider:before {
+.slider:before {
     position: absolute;
     content: "";
     height: 18px; width: 18px;
@@ -242,43 +238,10 @@ input[type="range"] {
     transition: .4s;
     box-shadow: 1px 1px 5px rgba(211,88,52,0.22);
 }
-.switch input:checked + .switch-slider {
+.switch input:checked + .slider {
     background-color: #ffd6c2;
 }
-
-.switch input:checked + .switch-slider:before {
+.switch input:checked + .slider:before {
     transform: translateX(20px);
     background-color: var(--nb-orange);
-}
-
-/* 행렬형 환경설정 테이블 */
-.env-table {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    margin-top: 64px;
-    align-items: center;
-}
-.env-row {
-    display: flex;
-    flex-direction: row;
-    gap: 60px;
-    align-items: center;
-    justify-content: center;
-}
-.env-label {
-    width: 80px;
-    color: var(--nb-black-fg);
-    font-size: 1.2rem;
-    font-weight: 500;
-    text-align: right;
-}
-.env-row label {
-    font-size: 1.08rem;
-    color: var(--nb-black-fg);
-    margin-left: 10px;
-}
-.env-row input[type="radio"] {
-    margin-right: 7px;
-    accent-color: var(--nb-orange);
 }

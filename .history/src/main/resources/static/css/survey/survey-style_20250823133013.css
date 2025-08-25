@@ -224,61 +224,12 @@ input[type="range"] {
     margin-right: 8px;
 }
 .switch input { display:none; }
-.switch-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #eee;
-    border-radius: 17px;
-    transition: .4s;
-}
-.switch-slider:before {
-    position: absolute;
-    content: "";
-    height: 18px; width: 18px;
-    left: 4px; bottom: 4px;
-    background-color: var(--nb-orange);
-    border-radius: 50%;
-    transition: .4s;
-    box-shadow: 1px 1px 5px rgba(211,88,52,0.22);
-}
-.switch input:checked + .switch-slider {
+
+.switch input:checked + .slider {
     background-color: #ffd6c2;
 }
 
-.switch input:checked + .switch-slider:before {
+.switch input:checked + .slider:before {
     transform: translateX(20px);
     background-color: var(--nb-orange);
-}
-
-/* 행렬형 환경설정 테이블 */
-.env-table {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    margin-top: 64px;
-    align-items: center;
-}
-.env-row {
-    display: flex;
-    flex-direction: row;
-    gap: 60px;
-    align-items: center;
-    justify-content: center;
-}
-.env-label {
-    width: 80px;
-    color: var(--nb-black-fg);
-    font-size: 1.2rem;
-    font-weight: 500;
-    text-align: right;
-}
-.env-row label {
-    font-size: 1.08rem;
-    color: var(--nb-black-fg);
-    margin-left: 10px;
-}
-.env-row input[type="radio"] {
-    margin-right: 7px;
-    accent-color: var(--nb-orange);
 }

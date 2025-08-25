@@ -1,9 +1,9 @@
-{{> survey/survey-header}}
+{{> common/survey-header}}
 
 <main class="main-home survey-page">
     <!-- 흐린 배경 이미지 오버레이 -->
     <div class="background-overlay">
-        <img src="/assets/images/room4.jpg" alt="배경이미지" class="main-large-img bg-fade-img" />
+        <img src="/assets/images/room4.png" alt="배경이미지" class="main-large-img bg-fade-img" />
     </div>
 
     <!-- 상단 타이틀 -->
@@ -11,10 +11,12 @@
     
     <form class="survey-form">
         <!-- 슬라이더 (방 크기) -->
-        <div class="slider-group">
-            <label for="roomsize-slider" class="slider-label">방 크기</label>
-            <div id="roomsize-slider"></div>
-            <span id="roomsize-slider-values"></span>
+        <div class="slider-group survey-slider-group">
+            <div class="slider-label-row">
+                <label for="room-size" class="slider-label">방 크기</label>
+                <span class="slider-label-right">최소~무제한</span>
+            </div>
+            <input type="range" id="room-size" min="0" max="100" value="0" step="1" class="main-slider">
         </div>
 
         <!-- 층수/옵션 -->
@@ -29,23 +31,22 @@
                     <option value="half">반지층</option>
                 </select>
             </div>
-            
             <!-- 옵션 토글 -->
             <div class="option-toggle-col">
                 <label for="elevator" class="option-label">엘리베이터</label>
                 <label class="switch">
                     <input type="checkbox" id="elevator" name="elevator">
-                    <span class="switch-slider"></span>
+                    <span class="slider"></span>
                 </label>
                 <label for="parking" class="option-label">주차</label>
                 <label class="switch">
                     <input type="checkbox" id="parking" name="parking">
-                    <span class="switch-slider"></span>
+                    <span class="slider"></span>
                 </label>
                 <label for="option" class="option-label">옵션 여부</label>
                 <label class="switch">
                     <input type="checkbox" id="option" name="option">
-                    <span class="switch-slider"></span>
+                    <span class="slider"></span>
                 </label>
             </div>
         </div>
