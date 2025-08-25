@@ -26,14 +26,14 @@
     font-weight: 500;
 }
 
-.main-home { 
+.main {
     display: flex; 
     flex-direction: column; 
     align-items: center; 
     min-height: 80vh; 
 }
 
-/*버튼들 스타일*/
+/* 버튼 스타일 */
 .base-btn {
     border: none;
     border-radius: 10px;
@@ -43,16 +43,11 @@
     box-shadow: 2px 2px 1px 0 rgba(0,0,0,0.3);
 }
 
-.home-start-btn {
-    background: var(--nb-orange);
-    color: var(--nb-white-fg);
-    font-size: 1.1rem;
-}
-
+/* Side Nav 버튼 스타일 */
 .side-nav {
-    position: absolute;
-    left: 36px;
-    bottom: 42px;
+    position: fixed;
+    left: 28px;
+    bottom: 40px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -60,19 +55,33 @@
 }
 
 .side-nav-btn {
-    background: var(--nb-orange);
-    color: var(--nb-white-fg);
+    width: 150px;
+    background: var(--nav-btn-bg);
+    color: var(--bright-font-color);
     padding: 20px 28px;
     margin-bottom: 8px;
     font-size: 1.1rem;
     font-weight: 500;
 }
 
+.side-nav-btn:hover {
+    background: var(--nav-btn-hover);
+}
+
+.side-nav-btn:active {
+    background: var(--nav-btn-active);
+    transform: translateY(2px);
+    box-shadow: 0 0 0 0;
+}
+
 /*배경 관련*/
 .background-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(200,200,200,0.5); /* 필요시 이미지를 배경으로 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(200, 200, 200, 0.5);
     z-index: -1;
 }
 

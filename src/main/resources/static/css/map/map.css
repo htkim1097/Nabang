@@ -1,0 +1,65 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+#map {
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 지도 하단 검색창 배치 */
+.map-search-box-wrap {
+    position: absolute;
+    left: 0;
+    bottom: 45px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none; /* 기본 스루, 내부만 클릭 허용 */
+}
+.map-search-box {
+    background: rgba(255,255,255,0.87);
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    display: flex;
+    align-items: center;
+    padding: 0 14px 0 24px;
+    width: 530px;            /* 이미지 대비 중앙 폭 */
+    height: 52px;
+    pointer-events: auto;    /* 내부 입력 및 버튼 클릭 가능 */
+    border: 1.5px solid #ebecec;
+}
+.map-search-input {
+    flex: 1;
+    font-size: 1.11rem;
+    color: #444;
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 0 12px;
+    height: 38px;
+}
+.map-search-btn {
+    border: none;
+    border-radius: 10px;
+    background: #fff7da;
+    color: #222;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: none;
+    padding: 0 28px;
+    margin-left: 12px;
+    height: 38px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.map-search-btn:hover {
+    background: #ffe3a0;
+}
+.map-search-btn:active {
+    background: #ffd993;
+}

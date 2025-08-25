@@ -1,7 +1,9 @@
 /*----- 색상 팔레트 -----*/
 :root {
     --nb-black: #303030;
+    --nb-dark-orange: #963522;
     --nb-orange: #d35834;
+    --nb-light-orange: #DE6246;
     --nb-blue: #268cff;
     --nb-green: #1ec28e;
     --nb-light-gray: #E0E0E0;
@@ -9,6 +11,20 @@
     --nb-white: #ffffff;
     --nb-transparent: #00000000;
 
-    --nb-white-fg: var(--nb-white);
-    --nb-black-fg: var(--nb-black);
+    /* 폰트 컬러 */
+    --bright-font-color: var(--nb-white);
+    --dark-font-color: var(--nb-black);
+
+    /* 버튼 컬러 */
+    --nav-btn-bg: var(--nb-orange);
+    --nav-btn-active: var(--nb-dark-orange);
+    --nav-btn-hover: var(--nb-light-orange);
+
+    --survey-btn-bg: var(--nb-white);
+    --survey-btn-active: var(--nb-dark-gray);
+
+    /* 콤보박스 컬러 */
+    --select-bg: var(--nb-white);
+    --select-bg-hover: var(--nb-light-gray);
+
 }
