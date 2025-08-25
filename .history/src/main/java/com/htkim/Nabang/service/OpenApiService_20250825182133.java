@@ -1,8 +1,6 @@
 package com.htkim.Nabang.service;
 
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,12 +11,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class OpenApiService {
 
-    @Autowired
-    private ApiProperties apiProperties;
+    private final ApiProperties apiProperties;
 
     private final RestTemplate restTemplate;
 
-    public OpenApiService(RestTemplateBuilder builder) {
+    public OpenApiService(ApiProperties apiProperties, RestTemplateBuilder builder) {
+        this.apiProperties = apiProperties;
         this.restTemplate = builder.build();
     }
 

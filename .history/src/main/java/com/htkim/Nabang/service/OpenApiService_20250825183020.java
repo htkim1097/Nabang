@@ -14,7 +14,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class OpenApiService {
 
     @Autowired
-    private ApiProperties apiProperties;
+    private final ApiProperties apiProperties;
 
     private final RestTemplate restTemplate;
 

@@ -1,8 +1,10 @@
 package com.htkim.Nabang.service;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
+@Getter
 @Component
 public class ApiProperties {
     private final String safeMapApiKey;
@@ -22,23 +24,4 @@ public class ApiProperties {
         naverMapApiKey = dotenv.get("CLIENT_SECRET");
     }
 
-    public String getSafeMapApiKey() {
-        return safeMapApiKey;
-    }
-
-    public String getStoreDeKey() {
-        return storeDeKey;
-    }
-
-    public String getStoreEnKey() {
-        return storeEnKey;
-    }
-
-    public String getNaverMapApiId() {
-        return naverMapApiId;
-    }
-
-    public String getNaverMapApiKey() {
-        return naverMapApiKey;
-    }
 }
