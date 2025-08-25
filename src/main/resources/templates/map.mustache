@@ -4,12 +4,19 @@
     {{! CSS }}
     <script src="https://cdn.jsdelivr.net/npm/ol@v10.6.0/dist/ol.js"></script>
     <link rel="stylesheet" href="/css/map/map.css">
+    <link rel="stylesheet" href="/css/map/context-menu.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.6.0/ol.css">
 </head>
 
 <body>
     <!-- 지도 -->
     <div id="map"></div>
+
+    <!-- 컨텍스트 메뉴 -->
+    <div id="context-menu" >
+        <button id="detail-btn" class="context-menu-item">방 상세보기</button>
+        <button id="add-btn" class="context-menu-item">방 등록하기</button>
+    </div>
 
     {{! 좌하단 버튼 }}
     <div class="side-nav">
@@ -30,3 +37,4 @@
 </body>
 
 <script type="text/javascript" src="/js/map/map.js"></script>
+<script type="text/javascript" src="/js/map/context-menu.js"></script>

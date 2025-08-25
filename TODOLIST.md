@@ -23,6 +23,7 @@
 - [x] MapPage mustache 페이지 작성
   - [x] Open Layer Map 도시
   - [x] Naver Map Geocode API 연결(주소 검색)
+  - [x] 지도 우클릭 Context 메뉴 UI 구현
 - [ ] RoomListPage pagenating 페이지 당 아이템 5개씩만 보이도록, 아이템만큼 페이지네이션 넘버링
 - [ ] DetailModal mustache 페이지 작성
 

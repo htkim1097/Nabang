@@ -1,3 +1,4 @@
+// 맵 생성 및 초기 설정
 var map = new ol.Map({
     target: 'map',
     layers: [
@@ -11,6 +12,7 @@ var map = new ol.Map({
     })
 });
 
+// 주소 검색 버튼 이벤트
 document.getElementById('btnSearch').addEventListener('click', () => {
     const address = document.getElementById('address').value;
 
@@ -43,15 +45,23 @@ document.getElementById('btnSearch').addEventListener('click', () => {
             });
         })
         .catch(err => alert('검색 중 오류가 발생했습니다.'));
+
+    initComponets();
 });
 
-// Enter key 등록
+// 주소 검색 버튼 Enter key 등록
 document.getElementById('address').addEventListener('keyup', (event) => {
     if (event.key === 'Enter' || event.keyCode === 13) {
         // 엔터 키가 눌렸을 때 실행할 코드
         document.getElementById('btnSearch').click();  // 클릭 이벤트 호출
 
         const address = document.getElementById('address');
-        address.value = '';
+
+        initComponets();
     }
 });
+
+function initComponets() {
+    address.value = '';
+    document.getElementById('context-menu').style.display = 'none';
+}
