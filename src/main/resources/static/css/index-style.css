@@ -1,11 +1,28 @@
 /*----- 홈 화면 스타일 -----*/
 
+/* 시작 버튼 */
+.home-start-btn {
+    background: var(--nav-btn-bg);
+    color: var(--bright-font-color);
+    font-size: 1.1rem;
+}
+
+.home-start-btn:hover {
+    background: var(--nav-btn-hover);
+}
+
+.home-start-btn:active {
+    background: var(--nav-btn-active);
+    transform: translateY(2px);
+    box-shadow: 0 0 0 0;
+}
+
 /*홈 화면 제목*/
 .home-title-small {
   text-align: center;
   margin: 220px 10px 0 0;
   font-size: 1.5rem;
-  color: var(--nb-black-fg);
+  color: var(--dark-font-color);
   text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -13,7 +30,7 @@
   text-align: center;
   margin: 200px 0 0 0;
   font-size: 2.5rem;
-  color: var(--nb-black-fg);
+  color: var(--dark-font-color);
   text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.3);
 }
 

@@ -1,0 +1,58 @@
+{{> common/header}}
+
+<head>
+    <link rel="stylesheet" href="/css/room/room-style.css">
+</head>
+
+<header>
+    {{> common/title-logo}}
+</header>
+
+<main class="property-main-bg">
+    <!-- 좌측 고정 버튼들 -->
+    <div class="side-nav">
+        <button class="base-btn side-nav-btn" onclick="location.href='/map'">Map</button>
+        <button class="base-btn side-nav-btn" onclick="location.href='/'">Home</button>
+    </div>
+
+    <!-- 중앙 리스트 패널 -->
+    <section class="property-list-panel">
+        {{#properties}}
+            <div class="property-card">
+                <div class="property-card-imgbox">
+                    <img src="{{imgUrl}}" alt="{{title}}" class="property-card-img" />
+                </div>
+                <div class="property-card-info">
+                    <div class="property-card-title">{{title}}</div>
+                    <div class="property-card-addr">주소: {{address}}</div>
+                    <div class="property-card-price">가격: {{deposit}} / {{monthly}}</div>
+                    <div class="property-card-detail">정보: {{summary}}</div>
+                </div>
+                <button class="property-card-btn" onclick="location.href='/room/{{id}}'">
+                    방 자세히 보기
+                </button>
+            </div>
+        {{/properties}}
+
+        {{^properties}}
+            <div class="property-empty">조회된 결과가 없습니다.</div>
+        {{/properties}}
+
+        <!-- 페이지네이션 (10개 초과일 때만 노출) -->
+        {{#pagination}}
+            <nav class="property-pagination">
+                {{#hasPrev}}
+                    <a class="property-page-link" href="?page={{prev}}">이전</a>
+                {{/hasPrev}}
+                {{#pages}}
+                    <a class="property-page-link {{#isCurrent}}property-page-current{{/isCurrent}}" href="?page={{num}}">{{num}}</a>
+                {{/pages}}
+                {{#hasNext}}
+                    <a class="property-page-link" href="?page={{next}}">다음</a>
+                {{/hasNext}}
+            </nav>
+        {{/pagination}}
+    </section>
+</main>
+
+{{> common/footer}}

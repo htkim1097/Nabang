@@ -5,7 +5,7 @@
 	text-align: center;
 	margin: 40px 0 20px 0;
 	font-size: 2.5rem;
-	color: var(--nb-white-fg);
+	color: var(--bright-font-color);
 	text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
@@ -24,7 +24,7 @@
 }
 
 .survey-title {
-	color: var(--nb-white-fg);
+	color: var(--bright-font-color);
 	margin-top: 180px;
 	text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 	font-weight: 700;
@@ -58,11 +58,9 @@
 	border: 1px solid var(--nb-light-gray);
 	padding: 8px 32px 8px 12px;
 	margin-top: 6px;
-	background: var(--nb-white-fg);
+	background: var(--select-bg);
 	width: 160px;
 }
-
-
 
 .previous-btn {
 	background: var(--nb-transparent);
@@ -106,7 +104,7 @@
 }
 
 .side-nav {
-	position: fixed; /* fixed 으로 변경 - 항상 화면 좌하단 */
+	position: fixed; 
 	left: 24px;
 	bottom: 32px;
 	display: flex;
@@ -130,6 +128,42 @@
 	background: var(--nb-orange);
 }
 
+.main-select:hover {
+    background: var(--select-bg-hover);
+}
+
+.survey-nav-cont {
+    position: absolute;
+    bottom: 25vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+    font-size: 1rem;
+    padding: 18px 48px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.survey-nav-btn {
+    position: absolute;
+    background: var(--survey-btn-bg);
+    width: 200px;
+}
+
+.survey-nav-btn:active {
+    background: var(--survey-btn-active);
+    transform: translateY(2px);
+    box-shadow: 0 0 0 0;
+}
+
+.previous-btn {
+    right: 20vh;
+}
+
+.next-btn {
+    left: 20vh;
+}
+
 /* 슬라이더 */
 .slider-group {
 	width: 410px;
@@ -140,7 +174,7 @@
 }
 
 .slider-label {
-	color: var(--nb-black-fg);
+	color: var(--dark-font-color);
 	margin-bottom: 8px;
 	font-size: 1.04rem;
 	font-weight: 500;
