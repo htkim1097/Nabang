@@ -1,3 +1,6 @@
+const test_lat = 36.3484975908032;
+const test_lon = 127.382156862011;
+
 // 맵 생성 및 초기 설정
 var map = new ol.Map({
     target: 'map',
@@ -7,8 +10,8 @@ var map = new ol.Map({
         })
     ],
     view: new ol.View({
-        center: ol.proj.fromLonLat([126.9780, 37.5665]),
-        zoom: 12
+        center: ol.proj.fromLonLat([test_lon, test_lat]),
+        zoom: 17
     })
 });
 
