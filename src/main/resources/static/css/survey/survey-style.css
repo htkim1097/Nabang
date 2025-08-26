@@ -1,31 +1,22 @@
 /* --------------------설문 화면 스타일-------------------- */
 
-/*사용자 설문 페이지 문항 글자*/
-.page-title {
-	text-align: center;
-	margin: 40px 0 20px 0;
-	font-size: 2.5rem;
-	color: var(--bright-font-color);
-	text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-}
-
 .survey-page {
-	min-height: 100vh;
-	justify-content: center;
 	position: relative;
 }
 
 .bg-fade-img {
-	width: 100vw;
-	height: 100vh;
 	object-fit: cover;
 	opacity: 0.3;
 	filter: blur(1px);
+    width: 100vw;
+    height: 100vh;
 }
 
 .survey-title {
+    text-align: center;
+    margin: 30vh 0 10px 0;
+    font-size: 2.5rem;
 	color: var(--bright-font-color);
-	margin-top: 180px;
 	text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 	font-weight: 700;
 }
@@ -62,47 +53,7 @@
 	width: 160px;
 }
 
-.previous-btn {
-	background: var(--nb-transparent);
-	color: var(--nb-white);
-	font-size: 1rem;
-	padding: 18px 48px;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-}
-
-.next-btn {
-	background: var(--nb-transparent);
-	color: var(--nb-white-fg);
-	font-size: 1rem;
-	padding: 18px 48px;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-}
-
-.base-btn.previous-btn:hover,
-.base-btn.next-btn:hover {
-	background: var(--nb-white); /* 어두운 오렌지 계열로 호버 효과 */
-	color: var(--nb-black-fg);
-}
-
-
-/* ----------Home 버튼 좌측 하단 고정---------- */
-.survey-nav {
-	width: 420px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	margin-top: 68px;
-}
-
-.form-nav.survey-nav {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 68px;
-	width: 800px; /* 버튼 간격 조정 */
-}
-
+/* ---------- 좌하단 페이지 이동 버튼 ---------- */
 .side-nav {
 	position: fixed; 
 	left: 24px;
@@ -115,7 +66,7 @@
 
 .side-nav-btn {
 	background: var(--nb-orange);
-	color: var(--nb-white-fg);
+	color: var(--bright-font-color);
 	padding: 20px 36px;
 	font-size: 1.1rem;
 	font-weight: 600;
@@ -144,10 +95,12 @@
     transition: background-color 0.3s ease;
 }
 
+/* ---------- Next/Prev 버튼 ---------- */
 .survey-nav-btn {
     position: absolute;
     background: var(--survey-btn-bg);
-    width: 200px;
+    width: 150px;
+    top: 20vh;
 }
 
 .survey-nav-btn:active {
@@ -162,6 +115,11 @@
 
 .next-btn {
     left: 20vh;
+}
+
+.base-btn.previous-btn:hover,
+.base-btn.next-btn:hover {
+    background: var(--nb-light-gray);
 }
 
 /* 슬라이더 */
@@ -244,7 +202,7 @@ input[type="range"] {
 }
 .option-label {
     margin-bottom: 4px;
-    color: var(--nb-black-fg);
+    color: var(--dark-font-color);
     font-size: 1rem;
     font-weight: 500;
 }
@@ -302,14 +260,14 @@ input[type="range"] {
 }
 .env-label {
     width: 80px;
-    color: var(--nb-black-fg);
+    color: var(--dark-font-color);
     font-size: 1.2rem;
     font-weight: 500;
     text-align: right;
 }
 .env-row label {
     font-size: 1.08rem;
-    color: var(--nb-black-fg);
+    color: var(--dark-font-color);
     margin-left: 10px;
 }
 .env-row input[type="radio"] {
