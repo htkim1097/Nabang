@@ -11,21 +11,19 @@ import lombok.ToString;
 @ToString
 @Entity
 @Getter
-public class LivingIndex {
+public class RoomImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long livingIndexId;
+    private Long image_id;
 
-    @Column
-    private int securityScore;
+    @Column(nullable = false)
+    private Long room_id;
 
-    @Column
-    private int disasterSaftyScore;
+    @Lob
+    @Column(
+            columnDefinition = "BLOB",
+            nullable = false)
+    private String location_id;
 
-    @Column
-    private int storeScore;
-
-    @Column
-    private int noiseSaftyScore;
 }

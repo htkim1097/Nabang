@@ -11,13 +11,20 @@ const fludMarkParam = {
     serverUrl: "http://www.safemap.go.kr/openApiService/wms/getLayerData.do",
     layername: "A2SM_FLUDMARKS",
     styles: "A2SM_FludMarks"
-}
+};
 
 const crimeHotspotParam = {
     name:'범죄주의구간(전체)',
     serverUrl:'http://www.safemap.go.kr/openApiService/wms/getLayerData.do',
     layername:'A2SM_CRMNLHSPOT_TOT',
     styles:'A2SM_CrmnlHspot_Tot_Tot'
+};
+
+const parkApiParam = {
+    serverUrl: "https://api.data.go.kr/openapi/tn_pubr_public_cty_park_info_api",
+    pageNo: "1",
+    numOfRows: "100",
+    type: "json"
 };
 
 const storeApiParam = {
@@ -27,12 +34,7 @@ const storeApiParam = {
     cx: "",
     cy: "",
     type: "json",
-}
-
-const parkApiParam = {
-    serverUrl: "http://api.data.go.kr/openapi/tn_pubr_public_cty_park_info_api",
-
-}
+};
 
 const contextMenu = document.getElementById('context-menu');
 
@@ -62,8 +64,6 @@ map.on('pointerdrag', () => {
 
 // 상세보기 버튼 클릭
 document.getElementById('detail-btn').addEventListener('click', (evt) => {
-    console.log("방 상세보기 기능을 추가해주세요..");
-
     // 저장된 좌표 불러오기
     const coordStr = contextMenu.dataset.coordinate;
     if (!coordStr) {
@@ -72,13 +72,13 @@ document.getElementById('detail-btn').addEventListener('click', (evt) => {
     }
     const coordinate = coordStr.split(',').map(Number);
 
-    addWmsLayer(map, crimeHotspotParam, coordinate);
+    contextMenu.style.display = 'none';
+
+    openInfoModal()
 });
 
 // 방 추가하기 버튼 클릭
 document.getElementById('add-btn').addEventListener('click', () => {
-    console.log("방 추가하기 기능을 추가해주세요..")
-
     // 저장된 좌표 불러오기
     const coordStr = contextMenu.dataset.coordinate;
     if (!coordStr) {
@@ -87,8 +87,25 @@ document.getElementById('add-btn').addEventListener('click', () => {
     }
     const coordinate = coordStr.split(',').map(Number);
 
-    fetchStore(storeApiParam, toLatLon(coordinate[0], coordinate[1]), 300)
+    contextMenu.style.display = 'none';
+
+    openRegisterModal()
+
+    //fetchStore(storeApiParam, toLatLon(coordinate[0], coordinate[1]), 300)
+    //addWmsLayer(map, crimeHotspotParam, coordinate);
 });
+
+function openRegisterModal(data){
+    // const modalHtml = Mustache.render(roomModalTemplate, data);
+    // document.body.insertAdjacentHTML('beforeend', modalHtml);
+    document.getElementById('roomRegisterModal').style.display = 'block';
+}
+
+function openInfoModal(data){
+    // const modalHtml = Mustache.render(roomModalTemplate, data);
+    // document.body.insertAdjacentHTML('beforeend', modalHtml);
+    document.getElementById('roomInfoModal').style.display = 'block';
+}
 
 // 인근 상점 개수 확인
 function fetchStore(param, coordinate, radius) {
@@ -121,14 +138,6 @@ function fetchStore(param, coordinate, radius) {
                 });
         })
         .catch((e) => alert(e));
-}
-
-const parkApiParam = {
-    serverUrl: "https://api.data.go.kr/openapi/tn_pubr_public_cty_park_info_api",
-    pageNo: "1",
-    numOfRows: "100",
-    type: "json"
-
 }
 
 function fetchPark(param){

@@ -11,31 +11,15 @@ import lombok.ToString;
 @ToString
 @Entity
 @Getter
-public class Location {
+public class PriceInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int locationId;
+    private Long price_id;
 
     @Column
-    private String roadNameAddress;
+    private int deposit;
 
     @Column
-    private String detailAddress;
-
-    @Column
-    private double latitude;
-
-    @Column
-    private double longitude;
-
-    @Column
-    private String sido;
-
-    @Column
-    private String sigungu;
-
-    @Column
-    private String emdong;
-
+    private int monthlyRent;
 }

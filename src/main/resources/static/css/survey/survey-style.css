@@ -25,7 +25,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 48px;
 	z-index: 2;
 }
 
@@ -33,7 +32,7 @@
 .select-opt-row {
 	display: flex;
 	gap: 32px;
-	margin-top: 56px;
+	margin-top: 16px;
 	justify-content: center;
 }
 
@@ -100,7 +99,7 @@
     position: absolute;
     background: var(--survey-btn-bg);
     width: 150px;
-    top: 20vh;
+    top: 21vh;
 }
 
 .survey-nav-btn:active {
@@ -128,7 +127,7 @@
 	max-width: 97vw;
 	display: flex;
 	flex-direction: column;
-	margin: 16px 0 0 0;
+	margin-top: 16px;
 }
 
 .slider-label {
@@ -193,84 +192,36 @@ input[type="range"] {
     justify-content: center;
     align-items: flex-start;
 }
-.option-toggle-col {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-    margin-left: 16px;
-    align-items: flex-start;
-}
-.option-label {
-    margin-bottom: 4px;
-    color: var(--dark-font-color);
-    font-size: 1rem;
-    font-weight: 500;
-}
-
-/* ----------toggle switch 스타일---------- */
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 46px;
-    height: 26px;
-    margin-right: 8px;
-}
-.switch input { display:none; }
-.switch-slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: #eee;
-    border-radius: 17px;
-    transition: .4s;
-}
-.switch-slider:before {
-    position: absolute;
-    content: "";
-    height: 18px; width: 18px;
-    left: 4px; bottom: 4px;
-    background-color: var(--nb-orange);
-    border-radius: 50%;
-    transition: .4s;
-    box-shadow: 1px 1px 5px rgba(211,88,52,0.22);
-}
-.switch input:checked + .switch-slider {
-    background-color: #ffd6c2;
-}
-
-.switch input:checked + .switch-slider:before {
-    transform: translateX(20px);
-    background-color: var(--nb-orange);
-}
 
 /* 행렬형 환경설정 테이블 */
 .env-table {
     display: flex;
     flex-direction: column;
     gap: 22px;
-    margin-top: 64px;
-    align-items: center;
+    margin-top: 20px;
 }
 .env-row {
     display: flex;
     flex-direction: row;
-    gap: 60px;
+    gap: 30px;
     align-items: center;
-    justify-content: center;
 }
 .env-label {
-    width: 80px;
+    width: 100px;
     color: var(--dark-font-color);
     font-size: 1.2rem;
     font-weight: 500;
     text-align: right;
 }
 .env-row label {
-    font-size: 1.08rem;
+    font-size: 0.9rem;
     color: var(--dark-font-color);
     margin-left: 10px;
 }
 .env-row input[type="radio"] {
     margin-right: 7px;
     accent-color: var(--nb-orange);
+}
+.env-input-label {
+    width: 90px;
 }

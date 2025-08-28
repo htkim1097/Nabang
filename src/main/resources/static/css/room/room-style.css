@@ -134,9 +134,3 @@
 .property-page-link:hover {
     background: #e0ecff;
 }
-
-/* 반응형 (필요시 추가) */
-@media (max-width: 600px) {
-    .property-list-panel { min-width: 98vw; width: 98vw; }
-    .property-card { flex-direction: column; align-items: center; gap: 17px; padding: 18px;}
-}
