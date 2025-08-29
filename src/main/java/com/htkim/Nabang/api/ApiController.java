@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/data")
@@ -39,6 +41,4 @@ public class ApiController {
     public ResponseEntity<String> getStoreKey() {
         return ResponseEntity.ok(apiProperties.getStoreEnKey());
     }
-
-
 }

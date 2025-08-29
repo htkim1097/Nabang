@@ -2,8 +2,16 @@
     <div class="modal-content">
         <button id="reg-close-btn" class="close_btn" data-modal-close>&times;</button>
 
-        <div class="room-image-cont">
-            <!--<img src="" class="room-image"/>-->
+        <div style="display: flex">
+            <!-- 이미지 추가 input -->
+            <input type="file" id="file-input" accept="image/*" style="display: none">
+            <!-- 이 버튼을 클릭하면 위에 이미지 추가 input의 click 이벤트로 연결 -->
+            <div class="image-add-box" id="room-image-add-btn">
+                <span class="image-add-icon">+</span>
+            </div>
+
+            <div id="image-cont" class="room-image-cont">
+            </div>
         </div>
 
         <form id="registerRoomForm">
@@ -46,7 +54,7 @@
                 </div>
                 <div class="form-group">
                     <label>층</label>
-                    <input type="number" name="totalFloor" value=""/>
+                    <input type="number" name="floor" value=""/>
                 </div>
             </div>
 
@@ -56,27 +64,10 @@
                     <label>설명</label>
                     <textarea name="desc" placeholder="매물의 참고사항을 적어주세요" style="height: 125px"></textarea>
                 </div>
-                <button type="submit" class="register-btn">등록</button>
+                <button id="submit-btn" type="submit" class="register-btn">등록</button>
             </div>
         </form>
     </div>
 </div>
 
-<script id="roomImageTemplate" type="x-tmpl-mustache">
-    <input type="file" id="file-input" accept="image/*" style="display: none" multiple>
-
-    {{^canAddImage}}
-        <div class="image-add-box" id="room-image-add-btn">
-            <span class="image-add-icon">+</span>
-        </div>
-    {{/canAddImage}}
-
-    {{#images}}
-        <div class="room-image-box">
-            <img src="{{.}}" class="room-image-thumb" alt="매물 이미지"/>
-            <button type="button" class="image-del-btn">&times;</button>
-        </div>
-    {{/images}}
-</script>
-
-<script type="text/javascript" src="/js/room/room-register-modal.js"></script>
+<script type="text/javascript" src="/js/room/register-modal.js"></script>

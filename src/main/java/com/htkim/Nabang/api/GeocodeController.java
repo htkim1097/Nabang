@@ -22,4 +22,9 @@ public class GeocodeController {
         log.info("[address] : " + address);
         return geocodeService.getAddressToGeocode(address);
     }
+
+    @GetMapping("/reverse")
+    public ResponseEntity<?> getReverseGeocode(@RequestParam String coord) {
+        return geocodeService.getReverseGeocode(coord);
+    }
 }

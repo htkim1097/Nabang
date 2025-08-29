@@ -75,7 +75,7 @@
 - 확장자 명시 필수
 - 예:
     - `main-style.css`
-    - `room-list.js`
+    - `list.js`
     - `logo.png`
 
 ---

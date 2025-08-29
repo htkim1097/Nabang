@@ -16,13 +16,13 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId;
 
-    @Column(nullable = false)
+    @Column
     private Long locationId;
 
-    @Column(nullable = false)
+    @Column
     private Long priceId;
 
-    @Column(nullable = false)
+    @Column
     private Long livingIndexId;
 
     @Column(nullable = false)
@@ -46,7 +46,7 @@ public class Room {
     @Column(nullable = false)
     private boolean hasOption;
 
-    @Column(nullable = false)
+    @Column
     private int dealStatus;
 
     // 데이터 수정 시 적용

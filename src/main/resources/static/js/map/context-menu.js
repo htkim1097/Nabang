@@ -86,19 +86,40 @@ document.getElementById('add-btn').addEventListener('click', () => {
         return;
     }
     const coordinate = coordStr.split(',').map(Number);
+    console.log(toLatLon(coordinate[0], coordinate[1]));
+    openRegisterModal(toLatLon(coordinate[0], coordinate[1]));
 
     contextMenu.style.display = 'none';
-
-    openRegisterModal()
-
-    //fetchStore(storeApiParam, toLatLon(coordinate[0], coordinate[1]), 300)
-    //addWmsLayer(map, crimeHotspotParam, coordinate);
 });
 
-function openRegisterModal(data){
-    // const modalHtml = Mustache.render(roomModalTemplate, data);
-    // document.body.insertAdjacentHTML('beforeend', modalHtml);
-    document.getElementById('roomRegisterModal').style.display = 'block';
+async function openRegisterModal(coord) {
+    const modal = document.getElementById('roomRegisterModal');
+    const form = modal.querySelector("form");
+    const addressInput = form.querySelector("input[name='address']");
+
+    if (addressInput) {
+        addressInput.value = await coordsToStringAddress(coord);
+    }
+    modal.style.display = 'block';
+}
+
+async function coordsToStringAddress(coord) {
+    const url = "/api/geocode/reverse?coord=" + coord;
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            throw new Error("네트워크 응답 실패");
+        }
+
+        const data = await res.json();
+        const region = data.results[0].region;
+
+        return region.area1.name + " " + region.area2.name + " " + region.area3.name + " " + region.area4.name;
+    } catch (e) {
+        alert(e);
+        return null;
+    }
 }
 
 function openInfoModal(data){
@@ -158,13 +179,6 @@ function fetchPark(param){
             console.error('API 호출 오류:', error);
         }).catch((e) => alert(e));
 }
-
-
-
-
-
-
-
 
 function addWmsLayer(map, param, coordinate){
     fetch('/api/data/safemap-key')
@@ -227,5 +241,8 @@ function toLatLon(x, y) {
     var lon = (x / 20037508.34) * 180;
     var lat = (y / 20037508.34) * 180;
     lat = 180/Math.PI * (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
-    return [lat, lon];
+    return [lon, lat];
 }
+
+//fetchStore(storeApiParam, toLatLon(coordinate[0], coordinate[1]), 300)
+//addWmsLayer(map, crimeHotspotParam, coordinate);

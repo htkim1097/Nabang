@@ -15,15 +15,15 @@ public class RoomImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long image_id;
+    private Long imageId;
 
     @Column(nullable = false)
-    private Long room_id;
+    private Long roomId;
 
     @Lob
     @Column(
             columnDefinition = "BLOB",
             nullable = false)
-    private String location_id;
+    private String imageData;
 
 }

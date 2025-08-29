@@ -43,7 +43,6 @@ public class RoomController {
                 "next", page + 1
         ));
 
-        return "/room/room-list";
+        return "/room/list";
     }
-
 }

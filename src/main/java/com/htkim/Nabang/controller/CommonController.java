@@ -15,22 +15,27 @@ public class CommonController {
 
     @GetMapping("/survey/1")
     public String showAdressSurveyPage() {
-        return "/survey/survey-address";
+        return "/survey/address-input";
     }
 
     @GetMapping("/survey/2")
     public String showInfoSurveyPage() {
-        return "/survey/survey-roominfo";
+        return "/survey/roominfo";
     }
 
     @GetMapping("/survey/3")
     public String showDetailSurveyPage() {
-        return "/survey/survey-roomdetail";
+        return "/survey/roomdetail";
     }
 
     @GetMapping("/survey/4")
     public String showLivingSurveyPage() {
-        return "/survey/survey-livingindex";
+        return "/survey/livingindex";
+    }
+
+    @GetMapping("/map")
+    public String showMap(){
+        return "map";
     }
     
 }

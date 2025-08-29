@@ -23,7 +23,7 @@ public class GeocodeService {
         restTemplate = builder.build();
     }
 
-    public ResponseEntity<?> getAddressToGeocode(@RequestParam String address) {
+    public ResponseEntity<?> getAddressToGeocode(String address) {
 
         String url = "https://maps.apigw.ntruss.com/map-geocode/v2/geocode?query=" + address;
 
@@ -39,6 +39,25 @@ public class GeocodeService {
 
         log.info("[geocode response] : " + response.getBody());
 
+        return ResponseEntity.ok(response.getBody());
+    }
+
+    public ResponseEntity<?> getReverseGeocode(String coord) {
+        String url = String.format("https://maps.apigw.ntruss.com/map-reversegeocode/v2/gc?coords=%s&output=json", coord);
+
+        log.info("[geocode response] : " + url);
+
+        String apiId = apiProperties.getNaverMapApiId();
+        String apiKey = apiProperties.getNaverMapApiKey();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("x-ncp-apigw-api-key-id", apiId);
+        headers.set("x-ncp-apigw-api-key", apiKey);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        log.info("[reverse geocode response] : " + response.getBody());
         return ResponseEntity.ok(response.getBody());
     }
 }

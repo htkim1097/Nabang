@@ -267,6 +267,7 @@
     cursor: pointer;
     position: relative;
     transition: background 0.15s;
+    margin-right: 18px;
 }
 .image-add-box:hover {
     background: #EBEBEB;

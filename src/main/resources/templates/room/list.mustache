@@ -9,12 +9,6 @@
 </header>
 
 <main class="property-main-bg">
-    <!-- 좌측 고정 버튼들 -->
-    <div class="side-nav">
-        <button class="base-btn side-nav-btn" onclick="location.href='/map'">Map</button>
-        <button class="base-btn side-nav-btn" onclick="location.href='/'">Home</button>
-    </div>
-
     <!-- 중앙 리스트 패널 -->
     <section class="property-list-panel">
         {{#properties}}
@@ -53,6 +47,12 @@
             </nav>
         {{/pagination}}
     </section>
+
+    <!-- 좌측 고정 버튼들 -->
+    <div class="side-nav">
+        <button class="base-btn side-nav-btn" onclick="location.href='/map'">지도</button>
+        <button class="base-btn side-nav-btn" onclick="location.href='/'">처음으로</button>
+    </div>
 </main>
 
 {{> common/footer}}

@@ -10,20 +10,20 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class RoomDto {
-    private Long room_id;
-    private Long location_id;
-    private Long price_id;
-    private Long living_index_id;
-    private RoomType room_type;
-    private DealType deal_type;
-    private int room_size;
+    private Long roomId;
+    private Long locationId;
+    private Long priceId;
+    private Long livingIndexId;
+    private int roomType;
+    private int dealType;
+    private int roomSize;
     private int floor;
-    private boolean is_elevator;
-    private boolean is_parking;
-    private boolean has_option;
-    private DealStatus deal_status;
+    private boolean isElevator;
+    private boolean isParking;
+    private boolean hasOption;
+    private int dealStatus;
 
     public Room toEntity() {
-        return new Room(room_id, location_id, price_id, living_index_id, room_type.getCode(), deal_type.getCode(), room_size, floor, is_elevator, is_parking, has_option, deal_status.getCode());
+        return new Room(roomId, locationId, priceId, livingIndexId, roomType, dealType, roomSize, floor, isElevator, isParking, hasOption, dealStatus);
     }
 }
