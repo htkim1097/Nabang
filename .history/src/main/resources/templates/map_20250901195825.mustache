@@ -15,8 +15,10 @@
     <div id="map"></div>
 
     <!-- Modal 창 -->
-    <!--    방 상세보기 모달 창    -->
-    {{> room/info-modal}}
+    {{#roomData}}
+        <!--    방 상세보기 모달 창    -->
+        {{> room/info-modal}}
+    {{/roomData}}
 
     <!--    방 등록하기 모달 창    -->
     {{> room/register-modal}}
@@ -44,5 +46,6 @@
     </div>
 </body>
 
+<script type="text/javascript" src="/js/room/info-modal.js"></script>
 <script type="text/javascript" src="/js/map/map.js"></script>
 <script type="text/javascript" src="/js/map/context-menu.js"></script>

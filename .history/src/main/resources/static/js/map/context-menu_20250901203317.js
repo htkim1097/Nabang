@@ -158,25 +158,25 @@ async function openInfoModal(lat, lon){
 }
 
  async function showRoomInfoModal(roomId) {
-    try {
-        const resRoom = await fetch(`/api/rooms/${roomId}`);
-        if (!resRoom.ok) throw new Error('상세정보 로드 실패');
-        const room = await resRoom.json();
+        try {
+            const resRoom = await fetch(`/api/rooms/${roomId}`);
+            if (!resRoom.ok) throw new Error('상세정보 로드 실패');
+            const room = await resRoom.json();
 
-        const resImgs = await fetch(`/api/room-images/${roomId}`);
-        let images = [];
-        if (resImgs.ok) {
-            images = await resImgs.json();
+            const resImgs = await fetch(`/api/room-images/${roomId}`);
+            let images = [];
+            if (resImgs.ok) {
+                images = await resImgs.json();
+            }
+
+            fillModal(room, images);
+            modal.style.display = 'block';
+
+        } catch (e) {
+            alert('상세정보를 불러오는 중 오류가 발생했습니다.');
+            console.error(e);
         }
-
-        fillModal(room, images);
-        modal.style.display = 'block';
-
-    } catch (e) {
-        alert('상세정보를 불러오는 중 오류가 발생했습니다.');
-        console.error(e);
-    }
-};
+    };
 
 // 인근 상점 개수 확인
 function fetchStore(param, coordinate, radius) {

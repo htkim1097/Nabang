@@ -21,7 +21,7 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
         const coord = modal.dataset.coord.split(",");
 
         const address = form.querySelector("input[name='address']").value;
-        // const addressDetail = form.querySelector("input[name='addressDetail']").value;
+        const addressDetail = form.querySelector("input[name='addressDetail']").value;
 
         formData.append("emdong", address.split(" ")[2])
         formData.append("sido", address.split(" ")[0])
@@ -39,7 +39,7 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
         plainFormData.deposit = Number(plainFormData.deposit);
         plainFormData.monthlyRent = Number(plainFormData.monthlyRent);
         plainFormData.roomSize = Number(plainFormData.roomSize);
-        plainFormData.floor = Number(plainFormData.floor);
+        plainFormData.totalFloor = Number(plainFormData.floor);
         plainFormData.type = Number(plainFormData.type);
         plainFormData.dealType = Number(plainFormData.dealType);
 

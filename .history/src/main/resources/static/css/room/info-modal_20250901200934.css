@@ -1,0 +1,192 @@
+/* 모달 전체 배경 투명도 + 중앙 정렬 */
+/* .room-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+} */
+
+/* 모달 내부 컨텐츠 박스 */
+/* .modal-content {
+    background: #fff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 980px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px 30px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.4);
+    position: relative;
+    display: flex;
+    gap: 20px;
+} */
+
+/* 닫기 버튼 */
+.close_btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.2s ease-in-out;
+}
+.close_btn:hover {
+    color: #000;
+}
+
+/* 이미지 섹션 */
+.room-images {
+    flex: 1 1 40%;
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.room-images .main-image {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center;     /* 수직 중앙 정렬 (필요 시) */
+}
+
+.room-images .main-image img {
+    width: 50%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.thumb-images {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.thumb-images img.thumb-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 6px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.thumb-images img.thumb-image:hover,
+.thumb-images img.thumb-image.active {
+    border-color: #007BFF;
+}
+
+/* 상세 정보 폼 컨테이너 */
+#viewRoomForm {
+    flex: 1 1 55%;
+    display: flex;
+    gap: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 좌, 우 컬럼 */
+.form-left, .form-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* 단일 폼 그룹 */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    resize: none;
+    background-color: #f9f9f9;
+    color: #444;
+}
+
+.form-group input[type="text"]:read-only,
+.form-group textarea:read-only {
+    cursor: default;
+}
+
+/* 스위치 그룹 (엘리베이터, 주차 등) */
+.switch-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.switch-group label {
+    margin-right: 6px;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.switch-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: default;
+}
+
+/* 스크롤바 스타일화 (썸네일 영역에서 overflow-x:auto에 대해) */
+.thumb-images::-webkit-scrollbar {
+    height: 6px;
+}
+
+.thumb-images::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.thumb-images::-webkit-scrollbar-thumb {
+    background: #bbb;
+    border-radius: 3px;
+}
+
+.thumb-images::-webkit-scrollbar-thumb:hover {
+    background: #888;
+}
+
+/* 응답형 - 화면 크기 작아질 때 세로 정렬 */
+@media (max-width: 720px) {
+    .modal-content {
+        flex-direction: column;
+        max-height: 90vh;
+    }
+
+    #viewRoomForm {
+        flex-direction: column;
+    }
+
+    .room-images, .form-left, .form-right {
+        flex: unset;
+        width: 100%;
+    }
+
+    .thumb-images {
+        justify-content: center;
+    }
+}
