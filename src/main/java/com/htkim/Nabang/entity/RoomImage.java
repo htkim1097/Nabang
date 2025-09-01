@@ -20,9 +20,9 @@ public class RoomImage {
     @Column(nullable = false)
     private Long roomId;
 
-    @Lob
     @Column(
-            columnDefinition = "BLOB",
+            columnDefinition = "LONGBLOB",
+            length = 10000,
             nullable = false)
     private String imageData;
 

@@ -1,7 +1,9 @@
 package com.htkim.Nabang.api;
 
 import com.htkim.Nabang.dto.RoomDto;
+import com.htkim.Nabang.dto.RoomImageDto;
 import com.htkim.Nabang.entity.Room;
+import com.htkim.Nabang.entity.RoomImage;
 import com.htkim.Nabang.service.RoomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,16 @@ public class RoomApiController {
 
     // 모든 방 데이터를 불러온다
     @GetMapping("/api/rooms")
-    public List<Room> index() {
-        return roomService.index();
+    public List<Room> index(@RequestParam Map<String, String> params) {
+        // params에서 필터 조건 파싱 (필요한 필터 종류에 맞게 파싱)
+        // 예: int type = Integer.parseInt(params.getOrDefault("type", "0"));
+
+        if (!params.isEmpty()) {
+            return roomService.findRoomsByFilters(params);
+        }
+        else{
+            return roomService.index();
+        }
     }
 
     // 특정 방 데이터를 불러온다
@@ -35,5 +45,26 @@ public class RoomApiController {
         Room created = roomService.create(roomDto);
 
         return created != null ? ResponseEntity.status(HttpStatus.OK).body(created) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @PostMapping("/api/room-images")
+    public ResponseEntity<RoomImage> create(@RequestBody RoomImageDto roomImageDto) {
+        RoomImage created = roomService.create(roomImageDto);
+
+        return created != null ? ResponseEntity.status(HttpStatus.OK).body(created) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @GetMapping("/api/room-images/{roomId}")
+    public List<RoomImage> create(@PathVariable Long roomId) {
+        return roomService.getImages(roomId);
+    }
+
+    @GetMapping("/api/rooms/near")
+    public List<RoomDto> findNearby(
+            @RequestParam double lon,
+            @RequestParam double lat,
+            @RequestParam(defaultValue = "0.01") double radius) {  // 약 1km 이내
+
+        return roomService.findRoomsNear(lon, lat, radius);
     }
 }

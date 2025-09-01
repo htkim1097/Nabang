@@ -8,11 +8,11 @@ import lombok.ToString;
 @ToString
 public class RoomImageDto {
 
-    private Long image_id;
-    private Long room_id;
-    private String location_id;
+    private Long imageId;
+    private Long roomId;
+    private String imageData;
 
     public RoomImage toEntity() {
-        return new RoomImage(image_id, room_id, location_id);
+        return new RoomImage(imageId, roomId, imageData);
     }
 }

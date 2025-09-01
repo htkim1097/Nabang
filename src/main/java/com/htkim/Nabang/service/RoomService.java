@@ -1,19 +1,27 @@
 package com.htkim.Nabang.service;
 
 import com.htkim.Nabang.dto.RoomDto;
+import com.htkim.Nabang.dto.RoomImageDto;
 import com.htkim.Nabang.entity.Room;
+import com.htkim.Nabang.entity.RoomImage;
+import com.htkim.Nabang.repository.RoomImageRepository;
 import com.htkim.Nabang.repository.RoomRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class RoomService {
     @Autowired
     private RoomRepository roomRepository;
+
+    @Autowired
+    private RoomImageRepository roomImageRepository;
 
     // 모든 방 데이터를 불러온다
     public List<Room> index() {
@@ -34,6 +42,15 @@ public class RoomService {
             return null;
         }
         return roomRepository.save(room);
+    }
+
+    public RoomImage create(RoomImageDto roomImageDto) {
+        RoomImage roomImage = roomImageDto.toEntity();
+
+        if (roomImage.getImageId() != null) {
+            return null;
+        }
+        return roomImageRepository.save(roomImage);
     }
 
     // 방 데이터 수정
@@ -69,5 +86,46 @@ public class RoomService {
 
         roomRepository.delete(target);
         return target;
+    }
+
+    public List<RoomImage> getImages(Long roomId) {
+        return roomImageRepository.findByRoomId(roomId);
+    }
+
+    public List<Room> findRoomsByFilters(Map<String, String> params) {
+        return null;
+    }
+
+    public List<RoomDto> findRoomsNear(double lon, double lat, double radius) {
+        // 위도, 경도 범위 계산 (단위는 도, 대략적인 사각형 영역 검색)
+        double minLon = lon - radius;
+        double maxLon = lon + radius;
+        double minLat = lat - radius;
+        double maxLat = lat + radius;
+
+        List<Room> rooms = roomRepository.findRoomsInBoundingBox(minLon, maxLon, minLat, maxLat);
+
+        // 필요시 Room → RoomDto 변환 (주소, 이미지 URL 포함 등)
+        return rooms.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private RoomDto convertToDto(Room room) {
+        RoomDto dto = new RoomDto();
+        dto.setRoomId(room.getRoomId());
+        dto.setSido(room.getSido());
+        dto.setSigungu(room.getSigungu());
+        dto.setEmdong(room.getEmdong());
+        dto.setDetailAddress(room.getDetailAddress());
+        dto.setLongitude(room.getLongitude());
+        dto.setLatitude(room.getLatitude());
+        dto.setDeposit(room.getDeposit());
+        dto.setMonthlyRent(room.getMonthlyRent());
+        dto.setFloor(room.getFloor());
+        dto.setRoomType(room.getRoomType());
+        dto.setDealType(room.getDealType());
+        // 메인 이미지 URL 처리 등 필요 시 추가
+        return dto;
     }
 }

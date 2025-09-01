@@ -1,68 +1,39 @@
+<head>
+    <link rel="stylesheet" href="/css/room/info-modal.css">
+</head>
+
 <div id="roomInfoModal" class="room-modal" style="display:none;">
     <div class="modal-content">
         <button id="info-close-btn" class="close_btn" data-modal-close>&times;</button>
         <div class="room-images">
             <div class="main-image">
-                <img src="{{mainImageUrl}}" alt="대표 이미지" id="viewMainRoomImage"/>
+                <img src="" alt="대표 이미지" id="viewMainRoomImage"/>
             </div>
-            <div class="thumb-images">
-                {{#imageUrls}}
-                    <img src="{{.}}" class="thumb-image"/>
-                {{/imageUrls}}
+            <div class="thumb-images" id="thumbImagesContainer">
+                <!-- JS로 썸네일 이미지들 추가 -->
             </div>
         </div>
         <form id="viewRoomForm">
             <div class="form-left">
-                <div class="form-group">
-                    <label>주소</label>
-                    <input type="text" value="{{address}}" readonly/>
-                </div>
-                <div class="form-group">
-                    <label>세부 주소</label>
-                    <input type="text" value="{{addressDetail}}" readonly/>
-                </div>
-                <div class="form-group">
-                    <label>매물 유형</label>
-                    <input type="text" value="{{typeStr}}" readonly/>
-                </div>
-                <div class="form-group">
-                    <label>거래 유형</label>
-                    <input type="text" value="{{dealTypeStr}}" readonly/>
-                </div>
-                <div class="form-group">
-                    <label>보증금(전세)</label>
-                    <input type="text" value="{{deposit}}" readonly/>
-                </div>
-                <div class="form-group">
-                    <label>월세</label>
-                    <input type="text" value="{{monthlyRent}}" readonly/>
-                </div>
-                <div class="form-group">
-                    <label>방 크기(평)</label>
-                    <input type="text" value="{{roomSize}}" readonly/>
-                </div>
-                <div class="form-group">
-                    <label>층</label>
-                    <input type="text" value="{{totalFloor}}" readonly/>
-                </div>
+                <div class="form-group"><label>주소</label><input type="text" id="viewAddress" readonly/></div>
+                <div class="form-group"><label>세부 주소</label><input type="text" id="viewDetailAddress" readonly/></div>
+                <div class="form-group"><label>매물 유형</label><input type="text" id="viewTypeStr" readonly/></div>
+                <div class="form-group"><label>거래 유형</label><input type="text" id="viewDealTypeStr" readonly/></div>
+                <div class="form-group"><label>보증금(전세)</label><input type="text" id="viewDeposit" readonly/></div>
+                <div class="form-group"><label>월세</label><input type="text" id="viewMonthlyRent" readonly/></div>
+                <div class="form-group"><label>방 크기(평)</label><input type="text" id="viewRoomSize" readonly/></div>
+                <div class="form-group"><label>층</label><input type="text" id="viewTotalFloor" readonly/></div>
             </div>
             <div class="form-right">
                 <div class="form-group switch-group">
-                    <label>엘리베이터</label>
-                    <input type="checkbox" disabled {{#hasElevator}}checked{{/hasElevator}}/>
-                    <label>주차</label>
-                    <input type="checkbox" disabled {{#hasParking}}checked{{/hasParking}}/>
-                    <label>옵션 여부</label>
-                    <input type="checkbox" disabled {{#hasOption}}checked{{/hasOption}}/>
+                    <label>엘리베이터</label><input type="checkbox" id="viewHasElevator" disabled/>
+                    <label>주차</label><input type="checkbox" id="viewHasParking" disabled/>
+                    <label>옵션 여부</label><input type="checkbox" id="viewHasOption" disabled/>
                 </div>
                 <div class="form-group">
-                    <label>설명</label>
-                    <textarea rows="6" readonly>{{desc}}</textarea>
+                    <label>설명</label><textarea id="viewDesc" rows="6" readonly></textarea>
                 </div>
             </div>
         </form>
     </div>
 </div>
-
-
-<script type="text/javascript" src="/js/room/info-modal.js"></script>

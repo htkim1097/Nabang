@@ -63,18 +63,20 @@ map.on('pointerdrag', () => {
 });
 
 // 상세보기 버튼 클릭
-document.getElementById('detail-btn').addEventListener('click', (evt) => {
+document.getElementById('detail-btn').addEventListener('click', async e => {
     // 저장된 좌표 불러오기
     const coordStr = contextMenu.dataset.coordinate;
     if (!coordStr) {
         alert('좌표 정보를 찾을 수 없습니다.');
         return;
     }
+
     const coordinate = coordStr.split(',').map(Number);
+    const [lon, lat] = toLatLon(coordinate[0], coordinate[1]);
 
     contextMenu.style.display = 'none';
 
-    openInfoModal()
+    await openInfoModal(lat, lon)
 });
 
 // 방 추가하기 버튼 클릭
@@ -97,13 +99,15 @@ async function openRegisterModal(coord) {
     const form = modal.querySelector("form");
     const addressInput = form.querySelector("input[name='address']");
 
+    modal.dataset.coord = coord;
+
     if (addressInput) {
-        addressInput.value = await coordsToStringAddress(coord);
+        addressInput.value = await coordsToStringAddress(form, coord);
     }
     modal.style.display = 'block';
 }
 
-async function coordsToStringAddress(coord) {
+async function coordsToStringAddress(form, coord) {
     const url = "/api/geocode/reverse?coord=" + coord;
 
     try {
@@ -122,10 +126,35 @@ async function coordsToStringAddress(coord) {
     }
 }
 
-function openInfoModal(data){
-    // const modalHtml = Mustache.render(roomModalTemplate, data);
-    // document.body.insertAdjacentHTML('beforeend', modalHtml);
-    document.getElementById('roomInfoModal').style.display = 'block';
+async function openInfoModal(lat, lon){
+    try {
+        // 좌표 주변 방 검색 API 호출 (필요시 서버 API 구현)
+        // 예: /api/rooms/near?lon=...&lat=...&radius=...
+
+        console.log(lat, lon);
+
+        const radius = 0.001; // 미터 단위나 위경도 차이 단위, 적절히 조정
+        const url = `/api/rooms/near?lon=${lon}&lat=${lat}&radius=${radius}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('주변 방 검색 실패');
+
+        const nearbyRooms = await res.json();
+
+        if (nearbyRooms.length === 0) {
+            alert('해당 위치 주변에 매물이 없습니다.');
+            return;
+        }
+
+        // 가까운 방 중 첫번째 방 선택 (필요 시 거리 계산 후 선택 가능)
+        const roomId = nearbyRooms[0].roomId;
+
+        // 상세 모달 열기
+        await showRoomInfoModal(roomId);
+
+    } catch (error) {
+        console.error(error);
+        alert('상세정보를 불러오는 중 오류가 발생했습니다.');
+    }
 }
 
 // 인근 상점 개수 확인

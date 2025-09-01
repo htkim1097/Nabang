@@ -1,29 +1,67 @@
 package com.htkim.Nabang.entity;
 
+import com.htkim.Nabang.dto.RoomDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Entity
 @Getter
+@Setter
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId;
 
-    @Column
-    private Long locationId;
+//    @Column
+//    private Long locationId;
 
     @Column
-    private Long priceId;
+    private String roadNameAddress;
 
     @Column
-    private Long livingIndexId;
+    private String detailAddress;
+
+    @Column
+    private double latitude;
+
+    @Column
+    private double longitude;
+
+    @Column
+    private String sido;
+
+    @Column
+    private String sigungu;
+
+    @Column
+    private String emdong;
+
+//    @Column
+//    private Long priceId;
+
+    @Column
+    private int deposit;
+
+    @Column
+    private int monthlyRent;
+
+//    @Column
+//    private Long livingIndexId;
+
+    @Column
+    private int securityScore;
+
+    @Column
+    private int disasterSaftyScore;
+
+    @Column
+    private int storeScore;
+
+    @Column
+    private int noiseSaftyScore;
 
     @Column(nullable = false)
     private int roomType;
@@ -49,13 +87,13 @@ public class Room {
     @Column
     private int dealStatus;
 
+    @Column
+    private String description;
+
     // 데이터 수정 시 적용
     public void patch(Room room) {
 
         this.roomId = room.getRoomId();
-        this.locationId = room.getLocationId();
-        this.priceId = room.getPriceId();
-        this.livingIndexId = room.getLivingIndexId();
         this.roomType = room.getRoomType();
         this.dealType = room.getDealType();
         this.roomSize = room.getRoomSize();
