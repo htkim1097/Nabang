@@ -99,13 +99,12 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
 
         plainFormData.noiseSaftyScore = noiseScore;
 
-        let disasterScore = 0;
+        // let disasterScore = 0;
 
-        if (await getFludMarkCount(map, modal.dataset.coordsEpsg3875) > 0){
-            disasterScore = 1;
-        }
+        // const data = fetchSafeMap(map, fludMarkParam, [lon, lat]);
+        dddd(map, );
 
-        plainFormData.disasterSaftyScore = disasterScore;
+        // plainFormData.disasterSaftyScore = disasterScore;
 
         // 기존 서버 저장 요청
         const response = await fetch("/api/rooms", {
@@ -157,7 +156,7 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
     }
 });
 
-async function getFludMarkCount(map, coordsEpsg3875){
+function dddd(map, coordsEpsg3875){
 
     const param = {
         name: "침수흔적도",
@@ -166,9 +165,9 @@ async function getFludMarkCount(map, coordsEpsg3875){
         styles: "A2SM_FludMarks"
     };
 
-    await fetch('/api/data/safemap-key')
+    fetch('/api/data/safemap-key')
         .then(res => res.text())
-        .then(async apiKey => {
+        .then(apiKey => {
             const wmsSource = new ol.source.TileWMS({
                 headers: {
                     "Access-Control-Allow-Origin": "*"
@@ -189,27 +188,23 @@ async function getFludMarkCount(map, coordsEpsg3875){
                 zIndex: 10
             });
 
-            // map.addLayer(wmsLayer);
+            map.addLayer(wmsLayer);
 
             // coordinate 해당 좌표의 피처 정보 불러오기
-            const cnt = await getFeatureToLayer(wmsSource, coordsEpsg3875);
-            console.log(cnt);
-            return cnt;
+            return getFeatureToLayer(wmsSource, coordsEpsg3875);
 
         })
         .catch((e) => alert(e));
 }
 
 
-async function getFeatureToLayer(wmsSource, coordsEpsg3875){
+function getFeatureToLayer(wmsSource, coordsEpsg3875){
     const viewResolution = map.getView().getResolution();
     
     // const espg4326 = ol.proj.transform(coordinate, "EPSG:3875", "EPSG:4326");
     // console.log(coordinate);
     // console.log(espg4326)
     // 127.39554451052163, 36.339042287692095
-
-    console.log(coordsEpsg3875)
 
     const url = wmsSource.getFeatureInfoUrl(
         coordsEpsg3875,
@@ -222,17 +217,15 @@ async function getFeatureToLayer(wmsSource, coordsEpsg3875){
     );
 
     if (url) {
-        await fetch(url)
+        fetch(url)
             .then(response => response.json())
             .then(data => {
                 console.log('GetFeatureInfo Response:', data);
-                
                 if (data.features && data.features.length > 0) {
-                    return data.features.length;
+                    return data.features[0];
                 }
             })
-            .catch((e) => {
-                alert(e);
+            .catch(() => {
                 return null;
             });
     }

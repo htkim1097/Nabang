@@ -99,13 +99,13 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
 
         plainFormData.noiseSaftyScore = noiseScore;
 
-        let disasterScore = 0;
+        // let disasterScore = 0;
 
-        if (await getFludMarkCount(map, modal.dataset.coordsEpsg3875) > 0){
-            disasterScore = 1;
-        }
+        // const data = fetchSafeMap(map, fludMarkParam, [lon, lat]);
 
-        plainFormData.disasterSaftyScore = disasterScore;
+        console.log(await getFludMarkCount(map, modal.dataset.coordsEpsg3875));
+
+        // plainFormData.disasterSaftyScore = disasterScore;
 
         // 기존 서버 저장 요청
         const response = await fetch("/api/rooms", {

@@ -99,13 +99,13 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
 
         plainFormData.noiseSaftyScore = noiseScore;
 
-        let disasterScore = 0;
+        // let disasterScore = 0;
 
-        if (await getFludMarkCount(map, modal.dataset.coordsEpsg3875) > 0){
-            disasterScore = 1;
-        }
+        // const data = fetchSafeMap(map, fludMarkParam, [lon, lat]);
 
-        plainFormData.disasterSaftyScore = disasterScore;
+        console.log(await getFludMarkCount(map, modal.dataset.coordsEpsg3875));
+
+        // plainFormData.disasterSaftyScore = disasterScore;
 
         // 기존 서버 저장 요청
         const response = await fetch("/api/rooms", {
@@ -189,12 +189,10 @@ async function getFludMarkCount(map, coordsEpsg3875){
                 zIndex: 10
             });
 
-            // map.addLayer(wmsLayer);
+            map.addLayer(wmsLayer);
 
             // coordinate 해당 좌표의 피처 정보 불러오기
-            const cnt = await getFeatureToLayer(wmsSource, coordsEpsg3875);
-            console.log(cnt);
-            return cnt;
+            return await getFeatureToLayer(wmsSource, coordsEpsg3875);
 
         })
         .catch((e) => alert(e));
@@ -208,8 +206,6 @@ async function getFeatureToLayer(wmsSource, coordsEpsg3875){
     // console.log(coordinate);
     // console.log(espg4326)
     // 127.39554451052163, 36.339042287692095
-
-    console.log(coordsEpsg3875)
 
     const url = wmsSource.getFeatureInfoUrl(
         coordsEpsg3875,
@@ -227,12 +223,12 @@ async function getFeatureToLayer(wmsSource, coordsEpsg3875){
             .then(data => {
                 console.log('GetFeatureInfo Response:', data);
                 
-                if (data.features && data.features.length > 0) {
+                if (data.features) {
+                    console.log("ddd" + data.features.length)
                     return data.features.length;
                 }
             })
-            .catch((e) => {
-                alert(e);
+            .catch(() => {
                 return null;
             });
     }

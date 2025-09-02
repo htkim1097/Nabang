@@ -99,11 +99,10 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
 
         plainFormData.noiseSaftyScore = noiseScore;
 
-        let disasterScore = 0;
+        // let disasterScore = 0;
 
-        if (await getFludMarkCount(map, modal.dataset.coordsEpsg3875) > 0){
-            disasterScore = 1;
-        }
+        // const data = fetchSafeMap(map, fludMarkParam, [lon, lat]);
+        addSafeMapWmsLayer("A2SM_FLUDMARKS", "A2SM_FludMarks");
 
         plainFormData.disasterSaftyScore = disasterScore;
 
@@ -157,26 +156,49 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
     }
 });
 
-async function getFludMarkCount(map, coordsEpsg3875){
+async function addSafeMapWmsLayer(layerName, styles) {
+    try {
+        const proxyUrl = '/api/data/layerData';
 
-    const param = {
-        name: "침수흔적도",
-        serverUrl: "http://www.safemap.go.kr/openApiService/wms/getLayerData.do",
-        layername: "A2SM_FLUDMARKS",
-        styles: "A2SM_FludMarks"
-    };
+        const params = new URLSearchParams({
+            layer: layerName,
+            style: styles
+        });
 
-    await fetch('/api/data/safemap-key')
-        .then(res => res.text())
-        .then(async apiKey => {
-            const wmsSource = new ol.source.TileWMS({
-                headers: {
-                    "Access-Control-Allow-Origin": "*"
+        const wmsSourceUrl = `${proxyUrl}?${params.toString()}`;
+
+        const wmsLayer = new ol.layer.Tile({
+            source: new ol.source.TileWMS({
+                url: wmsSourceUrl,
+                params: {
+                    'LAYERS': layerName,
+                    'STYLES': styles,
+                    'FORMAT': 'image/png',
+                    'TRANSPARENT': true
                 },
+                serverType: 'geoserver'
+            })
+        });
+
+        map.addLayer(wmsLayer);
+
+        console.log('SafeMap WMS 레이어 추가 완료');
+
+    } catch (error) {
+        console.error('SafeMap WMS 레이어 추가 실패:', error);
+    }
+}
+
+
+function dddd(map, param, coordinate){
+    fetch('/api/data/safemap-key')
+        .then(res => res.text())
+        .then(apiKey => {
+            const wmsSource = new ol.source.TileWMS({
                 url: `${param.serverUrl}?apikey=${apiKey}`,
                 params: {
                     'LAYERS': param.layername,
-                    'STYLES': param.styles,
+                    'STYLES': param.style,
                     'FORMAT': 'image/png',
                     'TRANSPARENT': true
                 },
@@ -189,30 +211,21 @@ async function getFludMarkCount(map, coordsEpsg3875){
                 zIndex: 10
             });
 
-            // map.addLayer(wmsLayer);
+            map.addLayer(wmsLayer);
 
             // coordinate 해당 좌표의 피처 정보 불러오기
-            const cnt = await getFeatureToLayer(wmsSource, coordsEpsg3875);
-            console.log(cnt);
-            return cnt;
+            return getFeatureToLayer(wmsSource, coordinate);
 
         })
         .catch((e) => alert(e));
 }
 
 
-async function getFeatureToLayer(wmsSource, coordsEpsg3875){
+function getFeatureToLayer(wmsSource, coordinate){
     const viewResolution = map.getView().getResolution();
-    
-    // const espg4326 = ol.proj.transform(coordinate, "EPSG:3875", "EPSG:4326");
-    // console.log(coordinate);
-    // console.log(espg4326)
-    // 127.39554451052163, 36.339042287692095
-
-    console.log(coordsEpsg3875)
 
     const url = wmsSource.getFeatureInfoUrl(
-        coordsEpsg3875,
+        coordinate,
         viewResolution,
         map.getView().getProjection(),
         {
@@ -222,17 +235,15 @@ async function getFeatureToLayer(wmsSource, coordsEpsg3875){
     );
 
     if (url) {
-        await fetch(url)
+        fetch(url)
             .then(response => response.json())
             .then(data => {
                 console.log('GetFeatureInfo Response:', data);
-                
                 if (data.features && data.features.length > 0) {
-                    return data.features.length;
+                    return data.features[0];
                 }
             })
-            .catch((e) => {
-                alert(e);
+            .catch(() => {
                 return null;
             });
     }
@@ -277,14 +288,6 @@ async function getStoreConunt(lat, lon, radius) {
 }
 
 document.addEventListener('DOMContentLoaded', e => {
-
-    map.on('click', function(evt) {
-
-        var coordinate = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
-        //let coordinate = evt.coordinate;
-        console.log(evt.coordinate);
-        console.log(coordinate);
-    })
 
     fileInput = document.getElementById("file-input");
     regCloseBtn = document.getElementById("reg-close-btn");

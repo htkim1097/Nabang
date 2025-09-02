@@ -63,9 +63,7 @@ async function openRegisterModal(coordinate) {
     const addressInput = form.querySelector("input[name='address']");
 
     modal.dataset.coordsEpsg3875 = coordinate;
-    modal.dataset.coord = toLatLon(coordinate[0], coordinate[1]);
-
-    const coord = modal.dataset.coord;
+    modal.dataset.coord = toLatLon(coordinate[0], coordinate[1])
 
     if (addressInput) {
         addressInput.value = await coordsToStringAddress(form, coord);

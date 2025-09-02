@@ -51,21 +51,21 @@ document.getElementById('add-btn').addEventListener('click', () => {
         return;
     }
     const coordinate = coordStr.split(',').map(Number);
+    console.log(toLatLon(coordinate[0], coordinate[1]));
+    modal.dataset.coordsEpsg3875 = coordinate;
 
-    openRegisterModal(coordinate);
+    openRegisterModal(toLatLon(coordinate[0], coordinate[1]));
 
     contextMenu.style.display = 'none';
 });
 
-async function openRegisterModal(coordinate) {
+async function openRegisterModal(coord) {
     const modal = document.getElementById('roomRegisterModal');
     const form = modal.querySelector("form");
     const addressInput = form.querySelector("input[name='address']");
 
-    modal.dataset.coordsEpsg3875 = coordinate;
-    modal.dataset.coord = toLatLon(coordinate[0], coordinate[1]);
-
-    const coord = modal.dataset.coord;
+    
+    modal.dataset.coord = coord;
 
     if (addressInput) {
         addressInput.value = await coordsToStringAddress(form, coord);

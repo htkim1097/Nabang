@@ -238,11 +238,11 @@ public class RoomService {
         }
 
         // 8. 옵션 (엘리베이터, 주차, 옵션여부)
-        if ("true".equalsIgnoreCase(filters.get("isElevator"))) {
+        if ("true".equalsIgnoreCase(filters.get("hasElevator"))) {
             predicates.add(cb.isTrue(root.get("isElevator")));
             System.out.println("isElevator 필터 적용");
         }
-        if ("true".equalsIgnoreCase(filters.get("isParking"))) {
+        if ("true".equalsIgnoreCase(filters.get("hasParking"))) {
             predicates.add(cb.isTrue(root.get("isParking")));
             System.out.println("isParking 필터 적용");
         }

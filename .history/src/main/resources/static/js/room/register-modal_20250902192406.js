@@ -78,7 +78,7 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
         // 상권 근접 정도
         let storeScore = 0;
 
-        if (await getStoreConunt(lat, lon, 1000) > 500) {
+        if (getStoreConunt(lat, lon, 1000) > 500) {
             storeScore = 1;
         }
         else {
@@ -90,7 +90,7 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
         // 소음 정도
         let noiseScore = 0;
 
-        if (await getStoreConunt(lat, lon, 10) > 3) {
+        if (getStoreConunt(lat, lon, 10) > 3) {
             noiseScore = 1;
         }
         else {
@@ -99,13 +99,12 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
 
         plainFormData.noiseSaftyScore = noiseScore;
 
-        let disasterScore = 0;
+        // let disasterScore = 0;
 
-        if (await getFludMarkCount(map, modal.dataset.coordsEpsg3875) > 0){
-            disasterScore = 1;
-        }
+        // //const data = fetchSafeMap(map, fludMarkParam, [lon, lat]);
+        // addSafeMapWmsLayer("A2SM_FLUDMARKS", "A2SM_FludMarks");
 
-        plainFormData.disasterSaftyScore = disasterScore;
+        // plainFormData.disasterSaftyScore = disasterScore;
 
         // 기존 서버 저장 요청
         const response = await fetch("/api/rooms", {
@@ -157,26 +156,155 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
     }
 });
 
-async function getFludMarkCount(map, coordsEpsg3875){
+// 인근 상점 개수 확인
+function fetchStore(param, coordinate, radius) {
+    let cnt = 0;
+    return cnt;
+}
 
+function fetchSafeMap(map, param, coordinate){
+    fetch('/api/data/layerData')
+        .then(res => res.text())
+        .then(data => {
+            console.log(data);
+        })
+        .catch((e) => alert(e));
+}
+
+async function addSafeMapWmsLayer(layerName, styles) {
+    try {
+        const proxyUrl = '/api/data/layerData';
+
+        const params = new URLSearchParams({
+            layer: layerName,
+            style: styles
+        });
+
+        const wmsSourceUrl = `${proxyUrl}?${params.toString()}`;
+
+        const wmsLayer = new ol.layer.Tile({
+            source: new ol.source.TileWMS({
+                url: wmsSourceUrl,
+                params: {
+                    'LAYERS': layerName,
+                    'STYLES': styles,
+                    'FORMAT': 'image/png',
+                    'TRANSPARENT': true
+                },
+                serverType: 'geoserver'
+            })
+        });
+
+        map.addLayer(wmsLayer);
+
+        console.log('SafeMap WMS 레이어 추가 완료');
+
+    } catch (error) {
+        console.error('SafeMap WMS 레이어 추가 실패:', error);
+    }
+}
+
+
+function getFeatureToLayer(wmsSource, coordinate){
+    const viewResolution = map.getView().getResolution();
+
+    const url = wmsSource.getFeatureInfoUrl(
+        coordinate,
+        viewResolution,
+        map.getView().getProjection(),
+        {
+            'INFO_FORMAT': 'application/json',
+            'FEATURE_COUNT': 5
+        }
+    );
+
+    if (url) {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                console.log('GetFeatureInfo Response:', data);
+                if (data.features && data.features.length > 0) {
+                    return data.features[0];
+                }
+            })
+            .catch(() => {
+                return null;
+            });
+    }
+    return null;
+}
+
+
+
+// 인근 상점 개수 확인
+function aaaaa(param, coordinate, radius) {
+    let cnt = 0;
+    fetch('/api/data/store-key')
+        .then(res => res.text())
+        .then(apiKey => {
+            param.cx = coordinate[1];
+            param.cy = coordinate[0];
+
+            console.log("x" + param.cx)
+            console.log("y" + param.cy)
+
+            let url = `${param.serverUrl}?serviceKey=${apiKey}&pageNo=${param.pageNo}&numOfRows=${param.numOfRows}&radius=${radius}&cx=${param.cx}&cy=${param.cy}&type=${param.type}`;
+
+            fetch(url)
+                .then(response => response.text())  // JSON이 안 올 경우 원본 텍스트를 봅니다.
+                .then(text => {
+                    const data = JSON.parse(text);
+                    // 정상 JSON 처리
+
+                    // 소음지수에 활용할 때는 10 ~ 20m로, 상권지수에 활용할 때는 300m
+                    console.log('상가 리스트 개수:', data.body.totalCount);
+                    cnt = data.body.totalCount;
+                })
+                .catch(error => {
+                    console.error('API 호출 오류:', error);
+                    cnt = -1;
+                });
+        })
+        .catch((e) => alert(e));
+    return cnt;
+}
+
+function getStoreConunt(lat, lon, radius){
     const param = {
-        name: "침수흔적도",
-        serverUrl: "http://www.safemap.go.kr/openApiService/wms/getLayerData.do",
-        layername: "A2SM_FLUDMARKS",
-        styles: "A2SM_FludMarks"
+        serverUrl: "http://apis.data.go.kr/B553077/api/open/sdsc2/storeListInRadius",
+        pageNo: "1",
+        numOfRows: "1000",
+        type: "json",
     };
 
-    await fetch('/api/data/safemap-key')
+    fetch("/api/data/store-key")
         .then(res => res.text())
-        .then(async apiKey => {
+        .then(apiKey => {
+            let url = `${param.serverUrl}?serviceKey=${apiKey}&pageNo=${param.pageNo}&cx=${lon}&cy=${lat}&numOfRows=${param.numOfRows}&type=${param.type}&radius=${radius}`;
+            try {
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => {
+                        const storeCnt = data.body.totalCount;
+                        console.log(storeCnt);
+                        return storeCnt;
+                    })
+            } catch (e) {}
+        })
+        .catch(error => {
+            console.error('API 호출 오류:', error);
+        }).catch((e) => alert(e));
+}
+
+function dddd(map, param, coordinate){
+    fetch('/api/data/safemap-key')
+        .then(res => res.text())
+        .then(apiKey => {
             const wmsSource = new ol.source.TileWMS({
-                headers: {
-                    "Access-Control-Allow-Origin": "*"
-                },
                 url: `${param.serverUrl}?apikey=${apiKey}`,
                 params: {
                     'LAYERS': param.layername,
-                    'STYLES': param.styles,
+                    'STYLES': param.style,
                     'FORMAT': 'image/png',
                     'TRANSPARENT': true
                 },
@@ -189,55 +317,16 @@ async function getFludMarkCount(map, coordsEpsg3875){
                 zIndex: 10
             });
 
-            // map.addLayer(wmsLayer);
+            map.addLayer(wmsLayer);
 
             // coordinate 해당 좌표의 피처 정보 불러오기
-            const cnt = await getFeatureToLayer(wmsSource, coordsEpsg3875);
-            console.log(cnt);
-            return cnt;
+            return getFeatureToLayer(wmsSource, coordinate);
 
         })
         .catch((e) => alert(e));
 }
 
 
-async function getFeatureToLayer(wmsSource, coordsEpsg3875){
-    const viewResolution = map.getView().getResolution();
-    
-    // const espg4326 = ol.proj.transform(coordinate, "EPSG:3875", "EPSG:4326");
-    // console.log(coordinate);
-    // console.log(espg4326)
-    // 127.39554451052163, 36.339042287692095
-
-    console.log(coordsEpsg3875)
-
-    const url = wmsSource.getFeatureInfoUrl(
-        coordsEpsg3875,
-        viewResolution,
-        map.getView().getProjection(),
-        {
-            'INFO_FORMAT': 'application/json',
-            'FEATURE_COUNT': 5
-        }
-    );
-
-    if (url) {
-        await fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                console.log('GetFeatureInfo Response:', data);
-                
-                if (data.features && data.features.length > 0) {
-                    return data.features.length;
-                }
-            })
-            .catch((e) => {
-                alert(e);
-                return null;
-            });
-    }
-    return null;
-}
 
 
 
@@ -246,45 +335,38 @@ async function getFeatureToLayer(wmsSource, coordsEpsg3875){
 
 
 
-async function getStoreConunt(lat, lon, radius) {
-    const param = {
-        serverUrl: "http://apis.data.go.kr/B553077/api/open/sdsc2/storeListInRadius",
-        pageNo: "1",
-        numOfRows: "1000",
-        type: "json",
-    };
 
-    try {
-        const apiKey = await fetch("/api/data/store-key").then(res => res.text());
 
-        const url = `${param.serverUrl}?serviceKey=${apiKey}&pageNo=${param.pageNo}&cx=${lon}&cy=${lat}&numOfRows=${param.numOfRows}&type=${param.type}&radius=${radius}`;
 
-        const response = await fetch(url);
-        if (!response.ok) {
-            console.error('API 요청 실패:', response.status);
-            return -1;
-        }
 
-        const data = await response.json();
-        const storeCnt = data.body?.totalCount ?? -1;
-        console.log('상가 개수:', storeCnt);
-        return storeCnt;
 
-    } catch (error) {
-        console.error('API 호출 오류:', error);
-        return -1;
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 document.addEventListener('DOMContentLoaded', e => {
-
-    map.on('click', function(evt) {
-
-        var coordinate = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
-        //let coordinate = evt.coordinate;
-        console.log(evt.coordinate);
-        console.log(coordinate);
-    })
 
     fileInput = document.getElementById("file-input");
     regCloseBtn = document.getElementById("reg-close-btn");
