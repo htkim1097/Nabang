@@ -56,6 +56,36 @@ document.addEventListener('DOMContentLoaded', function() {
     slider.noUiSlider.on('update', (values, handle) => {
         valuesBox.textContent = values[0] + ' ~ ' + values[1];
     });
+
+    const nextBtn = document.getElementById('nextBtn');
+
+    nextBtn.addEventListener('click', (e) => {
+        let surveyData = JSON.parse(sessionStorage.getItem('surveyData') || '{}');
+
+        surveyData['roomType'] = document.getElementById('room-type').value;
+        surveyData['dealType'] = document.getElementById('deal-type').value;
+
+        // 보증금(전세금) 슬라이더 값
+        const depositSlider = document.getElementById('deposit-slider');
+        let depositRange = depositSlider.noUiSlider.get();
+
+        surveyData['depositMin'] = convertDepositSliderValue(depositRange[0]);
+        surveyData['depositMax'] = convertDepositSliderValue(depositRange[1]);
+
+        // 월세 슬라이더 값
+        const monthlySlider = document.getElementById('monthly-slider');
+        let monthlyRange = monthlySlider.noUiSlider.get();
+
+        surveyData['monthlyMin'] = convertMonthlySliderValue(monthlyRange[0]);
+        surveyData['monthlyMax'] = convertMonthlySliderValue(monthlyRange[1]);
+
+        sessionStorage.setItem('surveyData', JSON.stringify(surveyData));
+
+        console.log(sessionStorage)
+
+        window.location.href = '/survey/3';
+    });
+
 });
 
 // 월세 슬라이더
@@ -73,21 +103,21 @@ document.addEventListener('DOMContentLoaded', function() {
         tooltips: [false, false],
         format: {
             // 값 표시 방법
-            to: value => { 
+            to: value => {
                 if (value == 0){
                     return "0원";
                 }
                 else if (value <= 30) {
-                    return Math.round(value * 10) + "만원"; 
+                    return Math.round(value * 10) + "만원";
                 }
                 else if (value == 31){
                     return "∞";
                 }
             },
             // 값 파싱 방법
-            from: value => { 
+            from: value => {
                 if (value.includes("만원")){
-                    return Number(value.replace("만원", "")) * 10000; 
+                    return Number(value.replace("만원", "")) * 10000;
                 }
                 else if (value.includes("원")){
                     return Number(value.replace("원", ""));
@@ -105,9 +135,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// document.getElementById('submitBtn').addEventListener('click', function() {
-//     var slider = document.getElementById('deposit-slider');
-//     var range = slider.noUiSlider.get();   // [최소값, 최대값]
-//     // 예: 서버로 전송 또는 화면에 출력
-//     console.log(range); // [ '1000000원', '40000000원' ]
-// });
+function convertMonthlySliderValue(value){
+    if (value.includes("만원")){
+        return Number(value.replace("만원", "")) * 10000;
+    }
+    else if (value.includes("원")){
+        return Number(value.replace("원", ""));
+    }
+    else {
+        return -1;
+    }
+}
+
+function convertDepositSliderValue(value){
+    if (value.includes("만원")){
+        return Number(value.replace("만원", "")) * 10000;
+    }
+    else if (value.includes("억원")){
+        return Number(value.replace("억원", "")) * 100000000;
+    }
+    else if (value.includes("원")){
+        return Number(value.replace("원", ""));
+    }
+    else {
+        return -1;
+    }
+}

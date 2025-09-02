@@ -1,3 +1,41 @@
+const crimeStatsParam = {
+    name:'치안사고통계(전체)',
+    serverUrl: 'http://www.safemap.go.kr/openApiService/wms/getLayerData.do',
+    layername: 'A2SM_CRMNLSTATS',
+    style: 'A2SM_CrmnlStats_Tot',
+};
+
+const fludMarkParam = {
+    name: "침수흔적도",
+    serverUrl: "http://www.safemap.go.kr/openApiService/wms/getLayerData.do",
+    layername: "A2SM_FLUDMARKS",
+    styles: "A2SM_FludMarks"
+};
+
+const crimeHotspotParam = {
+    name:'범죄주의구간(전체)',
+    serverUrl:'http://www.safemap.go.kr/openApiService/wms/getLayerData.do',
+    layername:'A2SM_CRMNLHSPOT_TOT',
+    styles:'A2SM_CrmnlHspot_Tot_Tot'
+};
+
+const parkApiParam = {
+    serverUrl: "https://api.data.go.kr/openapi/tn_pubr_public_cty_park_info_api",
+    pageNo: "1",
+    numOfRows: "100",
+    type: "json"
+};
+
+const storeApiParam = {
+    serverUrl: "http://apis.data.go.kr/B553077/api/open/sdsc2/storeListInRadius",
+    pageNo: "1",
+    numOfRows: "500",
+    cx: "",
+    cy: "",
+    type: "json",
+};
+
+
 // 추가된 이미지
 let images = [];
 
@@ -20,20 +58,23 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
         const modal = document.getElementById("roomRegisterModal");
         const coord = modal.dataset.coord.split(",");
 
-        const address = form.querySelector("input[name='address']").value;
-        // const addressDetail = form.querySelector("input[name='addressDetail']").value;
+        const [lat, lon] = toLatLon(coord[0], coord[1]);
 
-        formData.append("emdong", address.split(" ")[2])
-        formData.append("sido", address.split(" ")[0])
-        formData.append("sigungu", address.split(" ")[1])
-        formData.append("latitude", coord[1])
-        formData.append("longitude", coord[0])
-        // formData.append("description", form.querySelector("textarea[name='desc']").value);
-        // formData.append("isElevator", form.querySelector("input[name='elevator']").checked);
-        // formData.append("isParking", form.querySelector("input[name='parking']").checked);
-        // formData.append("hasOption", form.querySelector("input[name='option']").checked);
+        const address = form.querySelector("input[name='address']").value;
+
+        formData.append("emdong", address.split(" ")[2]);
+        formData.append("sido", address.split(" ")[0]);
+        formData.append("sigungu", address.split(" ")[1]);
+        formData.append("latitude", lat);
+        formData.append("longitude", lon);
+        formData.append("isElevator", form.querySelector("input[name='isElevator']").checked);
+        formData.append("isParking", form.querySelector("input[name='isParking']").checked);
 
         const plainFormData = Object.fromEntries(formData.entries());
+
+        plainFormData.elevator = form.querySelector("input[name='isElevator']").checked;
+        plainFormData.parking = form.querySelector("input[name='isParking']").checked;
+        plainFormData.hasOption = form.querySelector("input[name='hasOption']").checked;
 
         plainFormData.roomType = Number(plainFormData.roomType);
         plainFormData.deposit = Number(plainFormData.deposit);
@@ -43,8 +84,50 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
         plainFormData.type = Number(plainFormData.type);
         plainFormData.dealType = Number(plainFormData.dealType);
 
-        console.log(plainFormData);
 
+
+
+
+
+
+
+
+
+        // ------------------
+        // ★ Open API 호출 및 점수 계산 ★
+
+        // 상권 근접 정도
+        let storeScore = 0;
+
+        if (fetchStore(storeApiParam, toLatLon(lon, lat), 300) > 500){
+            storeScore = 1;
+        }
+        else {
+            storeScore = 2;
+        }
+
+        plainFormData.storeScore = storeScore;
+
+        // 소음 정도
+        let noiseScore = 0;
+
+        if (fetchStore(storeApiParam, toLatLon(lon, lat), 10) > 3){
+            noiseScore = 1;
+        }
+        else {
+            noiseScore = 0;
+        }
+
+        plainFormData.noiseSaftyScore = noiseScore;
+
+        let disasterScore = 0;
+
+        //const data = fetchSafeMap(map, fludMarkParam, [lon, lat]);
+        addSafeMapWmsLayer("A2SM_FLUDMARKS", "A2SM_FludMarks");
+
+        plainFormData.disasterSaftyScore = disasterScore;
+
+        // 기존 서버 저장 요청
         const response = await fetch("/api/rooms", {
             method: "POST",
             headers: {
@@ -61,7 +144,7 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
         const savedRoom = await response.json();
         console.log("저장된 방 정보:", savedRoom);
 
-        // 이미지. 방 생성 후 이미지 추가
+        // 이미지 방 생성 후 업로드 처리 (기존 코드 유지)
         for (let i = 0; i < images.length; i++) {
             const base64Data = images[i].replace(/^data:image\/\w+;base64,/, "");
 
@@ -79,20 +162,227 @@ document.getElementById("submit-btn").addEventListener("click", async e => {
             });
 
             if (!response.ok) {
-                alert("서버 저장 중 오류 발생");
+                alert("이미지 저장 중 오류 발생");
                 return;
             }
         }
 
+        ssss(storeApiParam, lat, lon);
+
         alert("매물 저장 완료");
-
         document.getElementById("roomRegisterModal").style.display = "none";
-
         updateVisibleRooms();
+
     } catch (e) {
-        alert(e);
+        alert("오류 발생: " + e.message);
+        console.error(e);
     }
 });
+
+// 인근 상점 개수 확인
+function fetchStore(param, coordinate, radius) {
+    let cnt = 0;
+    return cnt;
+}
+
+function fetchSafeMap(map, param, coordinate){
+    fetch('/api/data/layerData')
+        .then(res => res.text())
+        .then(data => {
+            console.log(data);
+        })
+        .catch((e) => alert(e));
+}
+
+async function addSafeMapWmsLayer(layerName, styles) {
+    try {
+        const proxyUrl = '/api/data/layerData';
+
+        const params = new URLSearchParams({
+            layer: layerName,
+            style: styles
+        });
+
+        const wmsSourceUrl = `${proxyUrl}?${params.toString()}`;
+
+        const wmsLayer = new ol.layer.Tile({
+            source: new ol.source.TileWMS({
+                url: wmsSourceUrl,
+                params: {
+                    'LAYERS': layerName,
+                    'STYLES': styles,
+                    'FORMAT': 'image/png',
+                    'TRANSPARENT': true
+                },
+                serverType: 'geoserver'
+            })
+        });
+
+        map.addLayer(wmsLayer);
+
+        console.log('SafeMap WMS 레이어 추가 완료');
+
+    } catch (error) {
+        console.error('SafeMap WMS 레이어 추가 실패:', error);
+    }
+}
+
+
+function getFeatureToLayer(wmsSource, coordinate){
+    const viewResolution = map.getView().getResolution();
+
+    const url = wmsSource.getFeatureInfoUrl(
+        coordinate,
+        viewResolution,
+        map.getView().getProjection(),
+        {
+            'INFO_FORMAT': 'application/json',
+            'FEATURE_COUNT': 5
+        }
+    );
+
+    if (url) {
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                console.log('GetFeatureInfo Response:', data);
+                if (data.features && data.features.length > 0) {
+                    return data.features[0];
+                }
+            })
+            .catch(() => {
+                return null;
+            });
+    }
+    return null;
+}
+
+
+
+// 인근 상점 개수 확인
+function aaaaa(param, coordinate, radius) {
+    let cnt = 0;
+    fetch('/api/data/store-key')
+        .then(res => res.text())
+        .then(apiKey => {
+            param.cx = coordinate[1];
+            param.cy = coordinate[0];
+
+            console.log("x" + param.cx)
+            console.log("y" + param.cy)
+
+            let url = `${param.serverUrl}?serviceKey=${apiKey}&pageNo=${param.pageNo}&numOfRows=${param.numOfRows}&radius=${radius}&cx=${param.cx}&cy=${param.cy}&type=${param.type}`;
+
+            fetch(url)
+                .then(response => response.text())  // JSON이 안 올 경우 원본 텍스트를 봅니다.
+                .then(text => {
+                    const data = JSON.parse(text);
+                    // 정상 JSON 처리
+
+                    // 소음지수에 활용할 때는 10 ~ 20m로, 상권지수에 활용할 때는 300m
+                    console.log('상가 리스트 개수:', data.body.totalCount);
+                    cnt = data.body.totalCount;
+                })
+                .catch(error => {
+                    console.error('API 호출 오류:', error);
+                    cnt = -1;
+                });
+        })
+        .catch((e) => alert(e));
+    return cnt;
+}
+
+function ssss(param, lat, lon){
+
+    console.log(lat, lon);
+
+
+    fetch("/api/data/store-key")
+        .then(res => res.text())
+        .then(apiKey => {
+            let url = `${param.serverUrl}?serviceKey=${apiKey}&pageNo=${param.pageNo}&cx=36.3484975908032&cy=127.382156862011&numOfRows=${param.numOfRows}&type=${param.type}`;
+            try {
+                fetch(url)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+            } catch (e) {}
+        })
+        .catch(error => {
+            console.error('API 호출 오류:', error);
+        }).catch((e) => alert(e));
+}
+
+function dddd(map, param, coordinate){
+    fetch('/api/data/safemap-key')
+        .then(res => res.text())
+        .then(apiKey => {
+            const wmsSource = new ol.source.TileWMS({
+                url: `${param.serverUrl}?apikey=${apiKey}`,
+                params: {
+                    'LAYERS': param.layername,
+                    'STYLES': param.style,
+                    'FORMAT': 'image/png',
+                    'TRANSPARENT': true
+                },
+                serverType: 'geoserver'
+            });
+
+            const wmsLayer = new ol.layer.Tile({
+                source: wmsSource,
+                opacity: 0.8,
+                zIndex: 10
+            });
+
+            map.addLayer(wmsLayer);
+
+            // coordinate 해당 좌표의 피처 정보 불러오기
+            return getFeatureToLayer(wmsSource, coordinate);
+
+        })
+        .catch((e) => alert(e));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 document.addEventListener('DOMContentLoaded', e => {
 
@@ -200,10 +490,10 @@ function initInput() {
     images = [];
 }
 
-function onShowModal() {
-
-}
-
 function onHideModal() {
     initInput();
+}
+
+function onShowModal(){
+
 }

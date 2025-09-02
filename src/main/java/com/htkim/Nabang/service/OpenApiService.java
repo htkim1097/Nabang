@@ -1,9 +1,14 @@
 package com.htkim.Nabang.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.htkim.Nabang.dto.StoreApiDto;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,26 +33,65 @@ public class OpenApiService {
         this.restTemplate = builder.build();
     }
 
-    public ResponseEntity<String> getLayerData() {
+    public ResponseEntity<byte[]> getLayerData(String layer, String style) {
+
         String serverUrl = "http://www.safemap.go.kr/openApiService/wms/getLayerData.do";
+        String apiKey = apiProperties.getSafeMapApiKey();
+        String layerName = layer;
+        String styles = style;
 
-        String layerName = "A2SM_FLUDMARKS";
-        String styles = "A2SM_FludMarks";
-
-        // WMS API 호출 URL 구성
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(serverUrl)
-                .queryParam("apikey", apiProperties.getSafeMapApiKey())
+                .queryParam("apikey", apiKey)
                 .queryParam("layer", layerName)
                 .queryParam("style", styles);
 
-        // 서버에서 WMS API 호출 (XML, JSON 등 그대로 반환받음)
-        ResponseEntity<String> response = restTemplate.getForEntity(uriBuilder.toUriString(), String.class);
 
-        log.info(response.getBody());
+        ResponseEntity<byte[]> response = restTemplate.exchange(
+                uriBuilder.toUriString(),
+                HttpMethod.GET,
+                null,
+                byte[].class);
 
-        return ResponseEntity.status(response.getStatusCode())
-                .contentType(response.getHeaders().getContentType())
-                .body(response.getBody());
+        System.out.println(response.getBody());
+
+        HttpHeaders localHeaders = new HttpHeaders();
+        localHeaders.setContentType(response.getHeaders().getContentType());
+
+        // 중요: WMS는 이미지(binary) 데이터 반환 (JSON 아님)
+        return new ResponseEntity<>(response.getBody(), localHeaders, response.getStatusCode());
+    }
+
+    public Integer getStore(StoreApiDto params) {
+//        try {
+//            double cx = params.getLatitude();
+//            double cy = params.getLongitude();
+//
+//            String url = String.format("%s?serviceKey=%s&pageNo=%d&numOfRows=%d&radius=%d&cx=%s&cy=%s&type=%s",
+//                    "http://apis.data.go.kr/B553077/api/open/sdsc2/storeListInRadius",
+//                    apiProperties.getStoreDeKey(),
+//                    1,
+//                    1000,
+//                    params.getRadius(),
+//                    cx,
+//                    cy,
+//                    "json");
+//
+//            String responseStr = restTemplate.getForObject(url, String.class);
+//
+//            JsonNode rootNode = objectMapper.readTree(responseStr);
+//
+//            // JSON 구조에 따라 경로 수정 필요
+//            int totalCount = rootNode.path("body").path("totalCount").asInt(-1);
+//            System.out.println("상가 리스트 개수: " + totalCount);
+//
+//            return totalCount;
+//        }
+//        catch (Exception e) {
+//            System.err.println("API 호출 오류: " + e.getMessage());
+//            return -1;
+//        }
+
+        return null;
     }
 
     public ResponseEntity<String> getSecurityFacility() {

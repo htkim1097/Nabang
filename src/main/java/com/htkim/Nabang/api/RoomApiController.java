@@ -23,11 +23,8 @@ public class RoomApiController {
     // 모든 방 데이터를 불러온다
     @GetMapping("/api/rooms")
     public List<Room> index(@RequestParam Map<String, String> params) {
-        // params에서 필터 조건 파싱 (필요한 필터 종류에 맞게 파싱)
-        // 예: int type = Integer.parseInt(params.getOrDefault("type", "0"));
-
         if (!params.isEmpty()) {
-            return roomService.findRoomsByFilters(params);
+            return roomService.findByFilters(params);
         }
         else{
             return roomService.index();

@@ -8,35 +8,25 @@
     <h1 class="page-title survey-title">지역을 입력해주세요</h1>
 
     <form class="survey-form">
-         <div class="select-opt-row">
+        <div class="select-opt-row">
+
             <div class="select-group">
-                <label for="city">시</label>
-                <select id="city" name="city" class="main-select">
-                    <option value="">전체</option>
-                    <option value="daejeon">대전광역시</option>
+                <label for="sido">시/도</label>
+                <select id="sido" name="sido" class="main-select">
                 </select>
             </div>
+
             <div class="select-group">
-                <label for="district">구</label>
-                <select id="district" name="district" class="main-select">
-                    <option value="">전체</option>
-                    <option value="yuseong">유성구</option>
-                    <option value="seo">서구</option>
-                    <option value="dong">동구</option>
-                    <option value="jung">중구</option>
+                <label for="sigungu">시/군/구</label>
+                <select id="sigungu" name="sigungu" class="main-select">
                 </select>
             </div>
-            <div class="select-group">
-                <label for="neighborhood">동</label>
-                <select id="neighborhood" name="neighborhood" class="main-select">
-                    <option value="">전체</option>
-                </select>
-            </div>
+
         </div>
 
         <!-- Next / Previous 버튼 그룹 -->
         <div class="survey-nav-cont">
-            <button type="button" class="base-btn survey-nav-btn next-btn" onclick="location.href='/survey/2'">Next →</button>
+            <button id="nextBtn" type="button" class="base-btn survey-nav-btn next-btn" >Next →</button>
         </div>
     </form>
 

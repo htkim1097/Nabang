@@ -7,17 +7,13 @@
 - 상권 : n개의 가게가 될 때의 원의 반경을 통해 점수 측정. 반경이 클수록 점수 하락.
 - 소음 : 반경 20m 내 음식점, 주점, 편의점, 공원의 수에 따라 점수 측정. 많을수록 점수 하락.
 
-# 사용 Open API
+# 사용 Open API/데이터
 1. 치안
-    - 경찰서 신고 횟수, 경찰서 개수
-      - 생활 안전 정보(https://safemap.go.kr/opna/data/dataList.do)
-    - cctv 개수
+   - 생활 안전 정보(https://safemap.go.kr/opna/data/dataList.do)
    
 2. 재난(침수)
     - 침수 흔적도
       - 생활 안전 정보(https://safemap.go.kr/opna/data/dataList.do)
-    - 강수량
-    - 태풍 횟수
    
 3. 상권
     - 가게 정보
@@ -26,6 +22,8 @@
 4. 소음
     - 음식점, 주점, 편의점 등
       - 소상공인시장진흥공단_상가(상권)정보_API(https://www.data.go.kr/data/15012005/openapi.do#/API%20%EB%AA%A9%EB%A1%9D/storeListInRadius)
-    - 공원
+
+5. 행정 구역 데이터(JSON)
+   - https://github.com/cosmosfarm/korea-administrative-district
 
 # 실행 방법
