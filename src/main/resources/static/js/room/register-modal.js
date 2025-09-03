@@ -189,8 +189,6 @@ async function getFludMarkCount(map, coordsEpsg3875){
                 zIndex: 10
             });
 
-            // map.addLayer(wmsLayer);
-
             // coordinate 해당 좌표의 피처 정보 불러오기
             const cnt = await getFeatureToLayer(wmsSource, coordsEpsg3875);
             console.log(cnt);
@@ -238,13 +236,6 @@ async function getFeatureToLayer(wmsSource, coordsEpsg3875){
     }
     return null;
 }
-
-
-
-
-
-
-
 
 async function getStoreConunt(lat, lon, radius) {
     const param = {
